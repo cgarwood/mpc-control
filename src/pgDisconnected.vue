@@ -1,10 +1,24 @@
 <template>
 	<div class="pg">
 	<ul class="stats">
-		<li>This Device: 192.168.1.11 auditorium_main</li>
-		<li><i class="fa fa-check-circle" style="color: green;"></i> Server: 192.168.1.6:8080</li>
-		<li><i class="fa fa-times-circle" style="color: red;"></i> MxManager: 192.168.1.6:2323</li>
-		<li><i class="fa fa-question-circle" style="color: #f39c12;"></i> MPC</li>
+		<li>This Device: auditorium_main</li>
+		<li>
+			<i v-if="connectedWebsocket" class="fa fa-check-circle" style="color: green;"></i>
+			<i v-if="!connectedWebsocket" class="fa fa-times-circle" style="color: red;"></i>
+			Server: {{config.websocket_server}}
+		</li>
+		<li>
+			<i v-if="connectedTelnet && connectedWebsocket" class="fa fa-check-circle" style="color: green;"></i>
+			<i v-if="!connectedTelnet && connectedWebsocket" class="fa fa-times-circle" style="color: red;"></i>
+			<i v-if="!connectedWebsocket" class="fa fa-question-circle" style="color: #f39c12;"></i>
+			MxManager: 192.168.1.6:2323
+		</li>
+		<li>
+			<i v-if="connectedMPC && connectedTelnet && connectedWebsocket" class="fa fa-check-circle" style="color: green;"></i>
+			<i v-if="!connectedMPC && connectedTelnet" class="fa fa-times-circle" style="color: red;"></i>
+			<i v-if="!connectedTelnet || !connectedWebsocket" class="fa fa-question-circle" style="color: #f39c12;"></i>
+			MPC
+		</li>
 		<li><a data-toggle="modal" data-target="#connectionTroubleshooter">Troubleshoot Connection Issues</a></li>
 	</ul>
 	<div class="lockscreen-wrapper">
@@ -68,3 +82,22 @@
 	</div>
 </div>
 </template>
+
+<script>
+	module.exports = {
+		computed: {
+			connectedWebsocket: function() {
+				return this.$parent.$data.connectedWebsocket;
+			},
+			connectedTelnet: function() {
+				return this.$parent.$data.connectedTelnet;
+			},
+			connectedMPC: function() {
+				return this.$parent.$data.connectedMPC;
+			},
+			config: function() {
+				return window.config;
+			}
+		}
+	}
+</script>

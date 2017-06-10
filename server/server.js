@@ -66,7 +66,7 @@ tnc.on('ready', function(prompt) {
 	console.log('> Telnet Connection Established');
 	
 	//Start a loop to broadcast the list of active cuelists every 5 seconds
-	setInterval(function() { if (connectedTelnet) { mxGetActiveCuelists();} }, 5000);
+	setInterval(function() { if (connectedTelnet) { heartbeat();} }, 5000);
 });
 
 //This timeout function seems to always be called, but the connection stays active.
@@ -121,13 +121,25 @@ function handleEvent(data) {
 function broadcast(d) {
 	wss.clients.forEach(function each(client) {
 		if (client.readyState === WebSocket.OPEN) {
+			var settings = {
+				'connectedTelnet': connectedTelnet,
+				'connectedMPC': connectedMPC,
+				'updatedAt': Date.now()
+			};
 			if (typeof(d) == "string") {
-				client.send(JSON.stringify({'data': d}));
+				data = Object.assign({'data': d},settings);
+				client.send(JSON.stringify(data));
 			} else {
-				client.send(JSON.stringify(d));
+				data = Object.assign(d,settings);
+				client.send(JSON.stringify(data));
 			}
 		}
 	});
+}
+
+function heartbeat() {
+	mxIsMxRunning();
+	setTimeout(function() {mxGetActiveCuelists();}, 500);
 }
 
 //MxManager Functions
@@ -150,8 +162,6 @@ function mxIsMxRunning() {
 				
 			}
 		});
-		broadcast(d);
-		//console.log('<'+d);
 	});
 }
 function mxStatus() {
