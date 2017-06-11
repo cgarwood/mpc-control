@@ -8,10 +8,12 @@ Vue.component('cueButton', require('./cueButton.vue'));
 //Import Route Components
 import pgDisconnected from './pgDisconnected.vue';
 import pgLocked from './pgLocked.vue';
+import pgControls from './pgControls.vue';
 
 const routes = [
 	{ path: '/disconnected', component: pgDisconnected },
-	{ path: '/locked', component: pgLocked }
+	{ path: '/locked', component: pgLocked },
+	{ path: '/controls', component: pgControls }
 ]
 
 const router = new VueRouter({
@@ -43,9 +45,7 @@ function connectWebsocket() {
 		app.$data['output'] += e.data + '\n';
 		var data = JSON.parse(e.data);
 		console.log(e.data);
-		
-		console.log(app.$route);
-		
+				
 		//Update cuelists
 		if (data.allCuelists !== undefined) {
 			app.$data['allCuelists'] = data.allCuelists;
@@ -67,7 +67,7 @@ function connectWebsocket() {
 		}
 		if (app.$data['connectedWebsocket'] === true && app.$data['connectedTelnet'] === true && app.$data['connectedMPC'] === true) {
 			if (app.$route.path == '/disconnected') {
-				router.replace('/locked');
+				router.replace('/controls');
 			}
 		}
 	}
@@ -107,5 +107,10 @@ const app = new Vue({
 	},
 	mounted: function() {
 		connectWebsocket();
+	},
+	methods: {
+		sendCommand: function(cmd) {
+			ws.send('{"cmd":"'+cmd+'"}');
+		}
 	}
 })

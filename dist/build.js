@@ -62,6 +62,10 @@
 
 	var _pgLocked2 = _interopRequireDefault(_pgLocked);
 
+	var _pgControls = __webpack_require__(16);
+
+	var _pgControls2 = _interopRequireDefault(_pgControls);
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	_vue2.default.use(_vueRouter2.default);
@@ -72,7 +76,7 @@
 	//Import Route Components
 
 
-	var routes = [{ path: '/disconnected', component: _pgDisconnected2.default }, { path: '/locked', component: _pgLocked2.default }];
+	var routes = [{ path: '/disconnected', component: _pgDisconnected2.default }, { path: '/locked', component: _pgLocked2.default }, { path: '/controls', component: _pgControls2.default }];
 
 	var router = new _vueRouter2.default({
 		routes: routes
@@ -104,8 +108,6 @@
 			var data = JSON.parse(e.data);
 			console.log(e.data);
 
-			console.log(app.$route);
-
 			//Update cuelists
 			if (data.allCuelists !== undefined) {
 				app.$data['allCuelists'] = data.allCuelists;
@@ -127,7 +129,7 @@
 			}
 			if (app.$data['connectedWebsocket'] === true && app.$data['connectedTelnet'] === true && app.$data['connectedMPC'] === true) {
 				if (app.$route.path == '/disconnected') {
-					router.replace('/locked');
+					router.replace('/controls');
 				}
 			}
 		};
@@ -169,6 +171,11 @@
 		},
 		mounted: function mounted() {
 			connectWebsocket();
+		},
+		methods: {
+			sendCommand: function sendCommand(cmd) {
+				ws.send('{"cmd":"' + cmd + '"}');
+			}
 		}
 	});
 
@@ -12960,12 +12967,14 @@
 	'use strict';
 
 	// <template>
-	// 	<div class="info-box" :data-cue="cue">
+	// 	<div class="info-box" :data-cue="cue" @click="toggleCue()">
 	// 		<span class="info-box-icon" :class="color"><i class="fa" :class="icon"></i></span>
 	//
 	// 		<div class="info-box-content">
 	// 			<span class="info-box-text">{{type}}</span>
 	// 			<span class="info-box-number">{{name}}</span>
+	// 			<span class="label bg-yellow" v-if="fading">FADING</span>
+	// 			<span class="label bg-green" v-if="isActive()">ACTIVE</span>
 	// 		</div>
 	//     </div>
 	// </template>
@@ -12989,6 +12998,33 @@
 			'type': {
 				default: "Presets"
 			}
+		},
+		data: function data() {
+			return {
+				'fading': false
+			};
+		},
+		methods: {
+			toggleCue: function toggleCue() {
+				//window.ws.send('{"cmd":"GQL '+this.$props.cue+'"}');
+				this.$root.sendCommand('cuelistGo ' + this.$props.cue);
+				this.$data.fading = true;
+				var data = this.$data;
+				setTimeout(function () {
+					data.fading = false;
+				}, 5000);
+			},
+			isActive: function isActive() {
+				var active = false;
+				var props = this.$props;
+				var data = this.$data;
+				this.$root.activeCuelists.forEach(function (each) {
+					if (each.id == props.cue) {
+						active = true;data.fading = false;
+					}
+				});
+				return active;
+			}
 		}
 		// </script>
 
@@ -12998,7 +13034,7 @@
 /* 14 */
 /***/ (function(module, exports) {
 
-	module.exports = "\r\n\t<div class=\"info-box\" :data-cue=\"cue\">\r\n\t\t<span class=\"info-box-icon\" :class=\"color\"><i class=\"fa\" :class=\"icon\"></i></span>\r\n\r\n\t\t<div class=\"info-box-content\">\r\n\t\t\t<span class=\"info-box-text\">{{type}}</span>\r\n\t\t\t<span class=\"info-box-number\">{{name}}</span>\r\n\t\t</div>\r\n    </div>\r\n";
+	module.exports = "\r\n\t<div class=\"info-box\" :data-cue=\"cue\" @click=\"toggleCue()\">\r\n\t\t<span class=\"info-box-icon\" :class=\"color\"><i class=\"fa\" :class=\"icon\"></i></span>\r\n\r\n\t\t<div class=\"info-box-content\">\r\n\t\t\t<span class=\"info-box-text\">{{type}}</span>\r\n\t\t\t<span class=\"info-box-number\">{{name}}</span>\r\n\t\t\t<span class=\"label bg-yellow\" v-if=\"fading\">FADING</span>\r\n\t\t\t<span class=\"label bg-green\" v-if=\"isActive()\">ACTIVE</span>\r\n\t\t</div>\r\n    </div>\r\n";
 
 /***/ }),
 /* 15 */
@@ -13110,6 +13146,64 @@
 		// </script>
 
 	};
+
+/***/ }),
+/* 16 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	var __vue_script__, __vue_template__
+	__vue_script__ = __webpack_require__(17)
+	__vue_template__ = __webpack_require__(18)
+	module.exports = __vue_script__ || {}
+	if (module.exports.__esModule) module.exports = module.exports.default
+	if (__vue_template__) { (typeof module.exports === "function" ? module.exports.options : module.exports).template = __vue_template__ }
+	if (false) {(function () {  module.hot.accept()
+	  var hotAPI = require("vue-hot-reload-api")
+	  hotAPI.install(require("vue"), true)
+	  if (!hotAPI.compatible) return
+	  var id = "d:\\nodejs\\mpc-control\\src\\pgControls.vue"
+	  if (!module.hot.data) {
+	    hotAPI.createRecord(id, module.exports)
+	  } else {
+	    hotAPI.update(id, module.exports, __vue_template__)
+	  }
+	})()}
+
+/***/ }),
+/* 17 */
+/***/ (function(module, exports) {
+
+	// <template>
+	// 	<div class="row">
+	// 		<div class="col-md-4">
+	// 			<cue-button :cue="201" name="House Full" type="House Lights" color="bg-yellow"></cue-button>
+	// 			<cue-button :cue="202" name="House Half" type="House Lights" color="bg-yellow"></cue-button>
+	// 			<cue-button :cue="203" name="House Low" type="House Lights" color="bg-yellow"></cue-button>
+	// 			<cue-button :cue="200" name="House Off" type="House Lights" color="bg-red" icon="fa-power-off"></cue-button>
+	// 		</div>
+	// 		<div class="col-md-4">
+	// 			<cue-button :cue="1" name="Front Lights" type="Stage Lighting" icon="fa-sun-o"></cue-button>
+	// 			<cue-button :cue="31" name="Backdrop Colors" type="Stage Lighting" icon="fa-sun-o"></cue-button>
+	// 			<cue-button :cue="27" name="Backdrop White" type="Stage Lighting" icon="fa-sun-o"></cue-button>
+	// 		</div>
+	// 		<div class="col-md-4">
+	// 			<cue-button :cue="12" name="Pre/Post Service" type="Presets" color="bg-green"></cue-button>
+	// 			<cue-button :cue="13" name="Worship" type="Presets" color="bg-green"></cue-button>
+	// 			<cue-button :cue="14" name="Sermon" type="Presets" color="bg-green"></cue-button>
+	// 			<cue-button :cue="11" name="All Off" type="Presets" color="bg-red" icon="fa-power-off"></cue-button>
+	// 		</div>
+	// 	</div>
+	// </template>
+	//
+	// <script>
+	// </script>
+	"use strict";
+
+/***/ }),
+/* 18 */
+/***/ (function(module, exports) {
+
+	module.exports = "\r\n\t<div class=\"row\">\r\n\t\t<div class=\"col-md-4\">\r\n\t\t\t<cue-button :cue=\"201\" name=\"House Full\" type=\"House Lights\" color=\"bg-yellow\"></cue-button>\r\n\t\t\t<cue-button :cue=\"202\" name=\"House Half\" type=\"House Lights\" color=\"bg-yellow\"></cue-button>\r\n\t\t\t<cue-button :cue=\"203\" name=\"House Low\" type=\"House Lights\" color=\"bg-yellow\"></cue-button>\r\n\t\t\t<cue-button :cue=\"200\" name=\"House Off\" type=\"House Lights\" color=\"bg-red\" icon=\"fa-power-off\"></cue-button>\r\n\t\t</div>\r\n\t\t<div class=\"col-md-4\">\r\n\t\t\t<cue-button :cue=\"1\" name=\"Front Lights\" type=\"Stage Lighting\" icon=\"fa-sun-o\"></cue-button>\r\n\t\t\t<cue-button :cue=\"31\" name=\"Backdrop Colors\" type=\"Stage Lighting\" icon=\"fa-sun-o\"></cue-button>\r\n\t\t\t<cue-button :cue=\"27\" name=\"Backdrop White\" type=\"Stage Lighting\" icon=\"fa-sun-o\"></cue-button>\r\n\t\t</div>\r\n\t\t<div class=\"col-md-4\">\r\n\t\t\t<cue-button :cue=\"12\" name=\"Pre/Post Service\" type=\"Presets\" color=\"bg-green\"></cue-button>\r\n\t\t\t<cue-button :cue=\"13\" name=\"Worship\" type=\"Presets\" color=\"bg-green\"></cue-button>\r\n\t\t\t<cue-button :cue=\"14\" name=\"Sermon\" type=\"Presets\" color=\"bg-green\"></cue-button>\r\n\t\t\t<cue-button :cue=\"11\" name=\"All Off\" type=\"Presets\" color=\"bg-red\" icon=\"fa-power-off\"></cue-button>\r\n\t\t</div>\r\n\t</div>\r\n";
 
 /***/ })
 /******/ ]);
