@@ -23,6 +23,7 @@ var mimeTypes = {
 //Set up telnet client for talking to MxManager
 var telnet = require('telnet-client');
 var tnc = new telnet();
+var reconnectTimer = 0;
 
 console.log('> Starting server...');
 
@@ -54,13 +55,23 @@ var connectedTelnet = false;
 var activeCuelists = [];
 
 // Connect to MxManager Telnet
-tnc.connect({
-	host: config.mxmanager_ip,
-	port: config.mxmanager_port,
-	shellPrompt: '',
-	timeout: 1500,
-	negotiationMandatory: false
-});
+connectTelnet();
+function connectTelnet() {
+	console.log('> Connecting to MxManager Telnet');
+	tnc.connect({
+		host: config.mxmanager_ip,
+		port: config.mxmanager_port,
+		shellPrompt: '',
+		timeout: 1500,
+		negotiationMandatory: false
+	});
+	
+	//Clear the reconnect timer if we are reconnecting
+	if(reconnectTimer){
+	   clearInterval(reconnectTimer);
+	   reconnectTimer=0;
+	}
+}
 
 tnc.on('ready', function(prompt) {
 	connectedTelnet = true;
@@ -82,7 +93,17 @@ tnc.on('close', function() {
 	connectedTelnet = false;
 	console.log('> Telnet connection closed');
 	broadcast({'connectedTelnet':connectedTelnet});
+	
+	//Start a timer to reconnect, if one hasn't already been started
+	if(!reconnectTimer){
+		reconnectTimer=setInterval(function(){connectTelnet()}, 5000);
+	}
 });
+
+tnc.on('error', function(e) {
+	console.log(e);
+});
+
 
 wss.on('connection', function connection(ws, req) {
   console.log('> New websocket connection from ' + req.connection.remoteAddress);
@@ -176,7 +197,6 @@ function mxStatus() {
 function mxGetAllCuelists() {
 	console.log('>> QLList');
 	tnc.send('QLList', {waitfor:'.\r\n'}, function(e,d) {
-		//console.log(d);
 		var lines = d.split('\r\n');
 		var cuelists = [];
 		lines.forEach(function each(line) {
@@ -240,7 +260,6 @@ function mxCuelistGo(number) {
 function mxCuelistRelease(number) {
 	console.log('>> RQL ' + number);
 	tnc.send('RQL ' + number, {waitfor:'.\r\n'}, function(e,d) {
-		//console.log(d);
 		var lines = d.split('\r\n');
 		lines.forEach(function each(line) {
 			if (line.slice(-9) == "not found") {
