@@ -81,7 +81,7 @@ tnc.on('ready', function(prompt) {
 	console.log('> Telnet Connection Established');
 	
 	//Start a loop to broadcast the list of active cuelists every 5 seconds
-	heartbeatTimer = setInterval(function() { if (connectedTelnet) { heartbeat();} }, 5000);
+	heartbeatTimer = setInterval(function() { if (connectedTelnet) { heartbeat();} }, config.polling_interval);
 });
 
 //This timeout function seems to always be called, but the connection stays active.
