@@ -12587,7 +12587,7 @@
 /* 5 */
 /***/ (function(module, exports) {
 
-	module.exports = "\r\n\t<div class=\"pg\">\r\n\t<ul class=\"stats\">\r\n\t\t<li>This Device: auditorium_main</li>\r\n\t\t<li>\r\n\t\t\t<i v-if=\"connectedWebsocket\" class=\"fa fa-check-circle\" style=\"color: green;\"></i>\r\n\t\t\t<i v-if=\"!connectedWebsocket\" class=\"fa fa-times-circle\" style=\"color: red;\"></i>\r\n\t\t\tServer: {{config.websocket_server}}\r\n\t\t</li>\r\n\t\t<li>\r\n\t\t\t<i v-if=\"connectedTelnet && connectedWebsocket\" class=\"fa fa-check-circle\" style=\"color: green;\"></i>\r\n\t\t\t<i v-if=\"!connectedTelnet && connectedWebsocket\" class=\"fa fa-times-circle\" style=\"color: red;\"></i>\r\n\t\t\t<i v-if=\"!connectedWebsocket\" class=\"fa fa-question-circle\" style=\"color: #f39c12;\"></i>\r\n\t\t\tMxManager: 192.168.1.6:2323\r\n\t\t</li>\r\n\t\t<li>\r\n\t\t\t<i v-if=\"connectedMPC && connectedTelnet && connectedWebsocket\" class=\"fa fa-check-circle\" style=\"color: green;\"></i>\r\n\t\t\t<i v-if=\"!connectedMPC && connectedTelnet\" class=\"fa fa-times-circle\" style=\"color: red;\"></i>\r\n\t\t\t<i v-if=\"!connectedTelnet || !connectedWebsocket\" class=\"fa fa-question-circle\" style=\"color: #f39c12;\"></i>\r\n\t\t\tMPC\r\n\t\t</li>\r\n\t\t<li><a data-toggle=\"modal\" data-target=\"#connectionTroubleshooter\">Troubleshoot Connection Issues</a></li>\r\n\t</ul>\r\n\t<div class=\"lockscreen-wrapper\">\r\n\t  <div class=\"lockscreen-logo\">\r\n\t\tConnection Lost\r\n\t  </div>\r\n\r\n\t\t<div class=\"text-center\" style=\"margin-bottom: 24px;\">\r\n\t\t\tConnection to the server has been lost. Attempting to reconnect.\r\n\t\t</div>\r\n\t\t<p class=\"text-center\" style=\"font-size: 36px; margin-bottom: 24px;\">\r\n\t\t\t<i class=\"fa fa-refresh fa-spin\"></i>\r\n\t\t</p>\r\n\t\t<p class=\"text-center\"><a data-toggle=\"modal\" data-target=\"#manualLights\">Need to manually activate the lights?</a></p>\r\n\t</div>\r\n\r\n\t<!-- Modal -->\r\n\t<div class=\"modal fade\" id=\"manualLights\" tabindex=\"-1\" role=\"dialog\" >\r\n\t  <div class=\"modal-dialog\" role=\"document\">\r\n\t\t<div class=\"modal-content\">\r\n\t\t  <div class=\"modal-header\">\r\n\t\t\t<button type=\"button\" class=\"close\" data-dismiss=\"modal\" aria-label=\"Close\"><span aria-hidden=\"true\">&times;</span></button>\r\n\t\t\t<h4 class=\"modal-title\">Manual Light Control</h4>\r\n\t\t  </div>\r\n\t\t  <div class=\"modal-body\">\r\n\t\t\t<p>A manual light control switch is located in the A/V booth. Go into the A/V booth and look for the following switch (usually on the counter between the two sets of computer monitors)</p>\r\n\t\t\t<img src=\"/static/manual-light-panel.png\" align=\"left\" height=\"200\" style=\"margin-right: 24px;\" />\r\n\t\t\t<ul>\r\n\t\t\t\t<li>Press the <b>white</b> button (<b>#7</b>) to turn all house lights on.</l i>\r\n\t\t\t\t<li>Press the <b>black</b> button (<b>#8</b>) to turn all house lights off.</li>\r\n\t\t\t\t<li>Press the <b>gray</b> buttons (<b>#1</b> & <b>#2</b>, <b>#3</b> & <b>#4</b>, etc.) to dim individual sections of lights.</li>\r\n\t\t\t\t<li>The other colored buttons activate a variety of preset light levels</li>\r\n\t\t\t</ul>\r\n\t\t\t<p>There is a separate light switch on the right side of the stage in front of the drum cage to turn on overhead stage lights.</p>\r\n\t\t  </div>\r\n\t\t  <div class=\"modal-footer\">\r\n\t\t\t<button type=\"button\" class=\"btn btn-default\" data-dismiss=\"modal\">Close</button>\r\n\t\t  </div>\r\n\t\t</div>\r\n\t  </div>\r\n\t</div>\r\n\r\n\t<!-- Modal -->\r\n\t<div class=\"modal fade\" id=\"connectionTroubleshooter\" tabindex=\"-1\" role=\"dialog\">\r\n\t  <div class=\"modal-dialog\" role=\"document\">\r\n\t\t<div class=\"modal-content\">\r\n\t\t  <div class=\"modal-header\">\r\n\t\t\t<button type=\"button\" class=\"close\" data-dismiss=\"modal\" aria-label=\"Close\"><span aria-hidden=\"true\">&times;</span></button>\r\n\t\t\t<h4 class=\"modal-title\">Troubleshoot Connection Issues</h4>\r\n\t\t  </div>\r\n\t\t  <div class=\"modal-body\">\r\n\t\t\t<p>A <i class=\"fa fa-times-circle\" style=\"color: red;\"></i> next to \"Server\" in the top right corner means the control server for the wall panels is unreachable. Ensure the wall panel is connected to wifi and the lighting PC is turned on in the A/V booth.</p>\r\n\t\t\t<p>A <i class=\"fa fa-times-circle\" style=\"color: red;\"></i> next to \"MxManager\" in the top right corner means the control server can not talk to the lighting software. Check the lighting computer in the A/V booth and make sure the M-PC and M-Series Manager applications are both running.</p>\r\n\t\t\t<p>A <i class=\"fa fa-times-circle\" style=\"color: red;\"></i> next to \"MPC\" in the top right corner means the lighting software is not running or unresponsive. Check the lighting computer in the A/V booth and make sure M-PC is running.</p>\r\n\t\t  </div>\r\n\t\t  <div class=\"modal-footer\">\r\n\t\t\t<button type=\"button\" class=\"btn btn-default\" data-dismiss=\"modal\">Close</button>\r\n\t\t  </div>\r\n\t\t</div>\r\n\t  </div>\r\n\t</div>\r\n</div>\r\n";
+	module.exports = "\r\n\t<div class=\"pg\">\r\n\t<ul class=\"stats\">\r\n\t\t<li>\r\n\t\t\t<i v-if=\"connectedWebsocket\" class=\"fa fa-check-circle\" style=\"color: green;\"></i>\r\n\t\t\t<i v-if=\"!connectedWebsocket\" class=\"fa fa-times-circle\" style=\"color: red;\"></i>\r\n\t\t\tServer: {{config.websocket_server}}\r\n\t\t</li>\r\n\t\t<li>\r\n\t\t\t<i v-if=\"connectedTelnet && connectedWebsocket\" class=\"fa fa-check-circle\" style=\"color: green;\"></i>\r\n\t\t\t<i v-if=\"!connectedTelnet && connectedWebsocket\" class=\"fa fa-times-circle\" style=\"color: red;\"></i>\r\n\t\t\t<i v-if=\"!connectedWebsocket\" class=\"fa fa-question-circle\" style=\"color: #f39c12;\"></i>\r\n\t\t\tMxManager\r\n\t\t</li>\r\n\t\t<li>\r\n\t\t\t<i v-if=\"connectedMPC && connectedTelnet && connectedWebsocket\" class=\"fa fa-check-circle\" style=\"color: green;\"></i>\r\n\t\t\t<i v-if=\"!connectedMPC && connectedTelnet\" class=\"fa fa-times-circle\" style=\"color: red;\"></i>\r\n\t\t\t<i v-if=\"!connectedTelnet || !connectedWebsocket\" class=\"fa fa-question-circle\" style=\"color: #f39c12;\"></i>\r\n\t\t\tMPC\r\n\t\t</li>\r\n\t\t<li><a data-toggle=\"modal\" data-target=\"#connectionTroubleshooter\">Troubleshoot Connection Issues</a></li>\r\n\t</ul>\r\n\t<div class=\"lockscreen-wrapper\">\r\n\t\t<div class=\"lockscreen-logo\">Connection Lost</div>\r\n\r\n\t\t<div class=\"text-center\" style=\"margin-bottom: 24px;\">\r\n\t\t\tConnection to the server has been lost. Attempting to reconnect.\r\n\t\t</div>\r\n\t\t<p class=\"text-center\" style=\"font-size: 36px; margin-bottom: 24px;\">\r\n\t\t\t<i class=\"fa fa-refresh fa-spin\"></i>\r\n\t\t</p>\r\n\t\t<p class=\"text-center\"><a data-toggle=\"modal\" data-target=\"#manualLights\">Need to manually activate the lights?</a></p>\r\n\t</div>\r\n\r\n\t<!-- Modal -->\r\n\t<div class=\"modal fade\" id=\"manualLights\" tabindex=\"-1\" role=\"dialog\" >\r\n\t\t<div class=\"modal-dialog\" role=\"document\">\r\n\t\t\t<div class=\"modal-content\">\r\n\t\t\t\t<div class=\"modal-header\">\r\n\t\t\t\t\t<button type=\"button\" class=\"close\" data-dismiss=\"modal\" aria-label=\"Close\"><span aria-hidden=\"true\">&times;</span></button>\r\n\t\t\t\t\t<h4 class=\"modal-title\">Manual Light Control</h4>\r\n\t\t\t\t</div>\r\n\t\t\t\t<div class=\"modal-body\">\r\n\t\t\t\t\t<p>A manual light control switch is located in the A/V booth. Go into the A/V booth and look for the following switch (usually on the counter between the two sets of computer monitors)</p>\r\n\t\t\t\t\t<img src=\"/static/manual-light-panel.png\" align=\"left\" height=\"200\" style=\"margin-right: 24px;\" />\r\n\t\t\t\t\t<ul>\r\n\t\t\t\t\t\t<li>Press the <b>white</b> button (<b>#7</b>) to turn all house lights on.</l i>\r\n\t\t\t\t\t\t<li>Press the <b>black</b> button (<b>#8</b>) to turn all house lights off.</li>\r\n\t\t\t\t\t\t<li>Press the <b>gray</b> buttons (<b>#1</b> & <b>#2</b>, <b>#3</b> & <b>#4</b>, etc.) to dim individual sections of lights.</li>\r\n\t\t\t\t\t\t<li>The other colored buttons activate a variety of preset light levels</li>\r\n\t\t\t\t\t</ul>\r\n\t\t\t\t\t<p>There is a separate light switch on the right side of the stage in front of the drum cage to turn on overhead stage lights.</p>\r\n\t\t\t\t</div>\r\n\t\t\t\t<div class=\"modal-footer\">\r\n\t\t\t\t\t<button type=\"button\" class=\"btn btn-default\" data-dismiss=\"modal\">Close</button>\r\n\t\t\t\t</div>\r\n\t\t\t</div>\r\n\t\t</div>\r\n\t</div>\r\n\r\n\t<!-- Modal -->\r\n\t<div class=\"modal fade\" id=\"connectionTroubleshooter\" tabindex=\"-1\" role=\"dialog\">\r\n\t\t<div class=\"modal-dialog\" role=\"document\">\r\n\t\t\t<div class=\"modal-content\">\r\n\t\t\t\t<div class=\"modal-header\">\r\n\t\t\t\t\t<button type=\"button\" class=\"close\" data-dismiss=\"modal\" aria-label=\"Close\"><span aria-hidden=\"true\">&times;</span></button>\r\n\t\t\t\t\t<h4 class=\"modal-title\">Troubleshoot Connection Issues</h4>\r\n\t\t\t\t</div>\r\n\t\t\t\t<div class=\"modal-body\">\r\n\t\t\t\t\t<p>A <i class=\"fa fa-times-circle\" style=\"color: red;\"></i> next to \"Server\" in the top right corner means the control server for the wall panels is unreachable. Ensure the wall panel is connected to wifi and the lighting PC is turned on in the A/V booth.</p>\r\n\t\t\t\t\t<p>A <i class=\"fa fa-times-circle\" style=\"color: red;\"></i> next to \"MxManager\" in the top right corner means the control server can not talk to the lighting software. Check the lighting computer in the A/V booth and make sure the M-PC and M-Series Manager applications are both running.</p>\r\n\t\t\t\t\t<p>A <i class=\"fa fa-times-circle\" style=\"color: red;\"></i> next to \"MPC\" in the top right corner means the lighting software is not running or unresponsive. Check the lighting computer in the A/V booth and make sure M-PC is running.</p>\r\n\t\t\t\t</div>\r\n\t\t\t\t<div class=\"modal-footer\">\r\n\t\t\t\t\t<button type=\"button\" class=\"btn btn-default\" data-dismiss=\"modal\">Close</button>\r\n\t\t\t\t</div>\r\n\t\t\t</div>\r\n\t\t</div>\r\n\t</div>\r\n</div>\r\n";
 
 /***/ }),
 /* 6 */
@@ -12965,7 +12965,7 @@
 /* 11 */
 /***/ (function(module, exports) {
 
-	module.exports = "\r\n<div class=\"lockscreen-wrapper\">\r\n  <div class=\"lockscreen-logo\">\r\n    Auditorium Lighting\r\n  </div>\r\n\r\n  \t<div class=\"text-center\" style=\"margin-bottom: 24px;\">\r\n\t\tWall controls are locked out by the lighting console. Please enter the password to unlock.\r\n\t</div>\r\n  <!-- START LOCK SCREEN ITEM -->\r\n  <div class=\"lockscreen-item\">\r\n \r\n    <!-- lockscreen credentials (contains the form) -->\r\n    <form @submit.prevent=\"submitUnlockCode()\" class=\"lockscreen-credentials\">\r\n      <div class=\"input-group\">\r\n        <input type=\"password\" v-model=\"unlock_code\" class=\"form-control\" placeholder=\"password\">\r\n\r\n        <div class=\"input-group-btn\">\r\n          <button type=\"button\" class=\"btn\" @click=\"submitUnlockCode()\"><i class=\"fa fa-arrow-right text-muted\"></i></button>\r\n        </div>\r\n      </div>\r\n    </form>\r\n    <!-- /.lockscreen credentials -->\r\n\r\n  </div>\r\n  <!-- /.lockscreen-item -->\r\n\t<transition name=\"fade\">\r\n\t\t<div class=\"callout callout-danger\" style=\"margin-bottom: 24px; text-align: center;\" v-if=\"error\">\r\n\t\t\t{{error}}\r\n\t\t</div>\r\n\t</transition>\r\n</div>\r\n";
+	module.exports = "\r\n<div class=\"lockscreen-wrapper\">\r\n\t<div class=\"lockscreen-logo\">Auditorium Lighting</div>\r\n\r\n  \t<div class=\"text-center\" style=\"margin-bottom: 24px;\">\r\n\t\tWall controls are locked out by the lighting console. Please enter the password to unlock.\r\n\t</div>\r\n\r\n\t<div class=\"lockscreen-item\">\r\n\t\t<form @submit.prevent=\"submitUnlockCode()\" class=\"lockscreen-credentials\">\r\n\t\t\t<div class=\"input-group\">\r\n\t\t\t\t<input type=\"password\" v-model=\"unlock_code\" class=\"form-control\" placeholder=\"password\">\r\n\r\n\t\t\t\t<div class=\"input-group-btn\">\r\n\t\t\t\t\t<button type=\"button\" class=\"btn\" @click=\"submitUnlockCode()\"><i class=\"fa fa-arrow-right text-muted\"></i></button>\r\n\t\t\t\t</div>\r\n\t\t\t</div>\r\n\t\t</form>\r\n\t</div>\r\n\r\n\t<transition name=\"fade\">\r\n\t\t<div class=\"callout callout-danger\" style=\"margin-bottom: 24px; text-align: center;\" v-if=\"error\">\r\n\t\t\t{{error}}\r\n\t\t</div>\r\n\t</transition>\r\n</div>\r\n";
 
 /***/ }),
 /* 12 */
@@ -13036,7 +13036,11 @@
 		methods: {
 			toggleCue: function toggleCue() {
 				//window.ws.send('{"cmd":"GQL '+this.$props.cue+'"}');
-				this.$root.sendCommand('cuelistGo ' + this.$props.cue);
+				if (this.isActive()) {
+					this.$root.sendCommand('cuelistRelease ' + this.$props.cue);
+				} else {
+					this.$root.sendCommand('cuelistGo ' + this.$props.cue);
+				}
 				this.$data.fading = true;
 				var data = this.$data;
 				setTimeout(function () {
@@ -13074,7 +13078,6 @@
 	// <template>
 	// 	<div class="pg">
 	// 	<ul class="stats">
-	// 		<li>This Device: auditorium_main</li>
 	// 		<li>
 	// 			<i v-if="connectedWebsocket" class="fa fa-check-circle" style="color: green;"></i>
 	// 			<i v-if="!connectedWebsocket" class="fa fa-times-circle" style="color: red;"></i>
@@ -13084,7 +13087,7 @@
 	// 			<i v-if="connectedTelnet && connectedWebsocket" class="fa fa-check-circle" style="color: green;"></i>
 	// 			<i v-if="!connectedTelnet && connectedWebsocket" class="fa fa-times-circle" style="color: red;"></i>
 	// 			<i v-if="!connectedWebsocket" class="fa fa-question-circle" style="color: #f39c12;"></i>
-	// 			MxManager: 192.168.1.6:2323
+	// 			MxManager
 	// 		</li>
 	// 		<li>
 	// 			<i v-if="connectedMPC && connectedTelnet && connectedWebsocket" class="fa fa-check-circle" style="color: green;"></i>
@@ -13095,9 +13098,7 @@
 	// 		<li><a data-toggle="modal" data-target="#connectionTroubleshooter">Troubleshoot Connection Issues</a></li>
 	// 	</ul>
 	// 	<div class="lockscreen-wrapper">
-	// 	  <div class="lockscreen-logo">
-	// 		Connection Lost
-	// 	  </div>
+	// 		<div class="lockscreen-logo">Connection Lost</div>
 	//
 	// 		<div class="text-center" style="margin-bottom: 24px;">
 	// 			Connection to the server has been lost. Attempting to reconnect.
@@ -13110,48 +13111,48 @@
 	//
 	// 	<!-- Modal -->
 	// 	<div class="modal fade" id="manualLights" tabindex="-1" role="dialog" >
-	// 	  <div class="modal-dialog" role="document">
-	// 		<div class="modal-content">
-	// 		  <div class="modal-header">
-	// 			<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-	// 			<h4 class="modal-title">Manual Light Control</h4>
-	// 		  </div>
-	// 		  <div class="modal-body">
-	// 			<p>A manual light control switch is located in the A/V booth. Go into the A/V booth and look for the following switch (usually on the counter between the two sets of computer monitors)</p>
-	// 			<img src="/static/manual-light-panel.png" align="left" height="200" style="margin-right: 24px;" />
-	// 			<ul>
-	// 				<li>Press the <b>white</b> button (<b>#7</b>) to turn all house lights on.</l i>
-	// 				<li>Press the <b>black</b> button (<b>#8</b>) to turn all house lights off.</li>
-	// 				<li>Press the <b>gray</b> buttons (<b>#1</b> & <b>#2</b>, <b>#3</b> & <b>#4</b>, etc.) to dim individual sections of lights.</li>
-	// 				<li>The other colored buttons activate a variety of preset light levels</li>
-	// 			</ul>
-	// 			<p>There is a separate light switch on the right side of the stage in front of the drum cage to turn on overhead stage lights.</p>
-	// 		  </div>
-	// 		  <div class="modal-footer">
-	// 			<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-	// 		  </div>
+	// 		<div class="modal-dialog" role="document">
+	// 			<div class="modal-content">
+	// 				<div class="modal-header">
+	// 					<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+	// 					<h4 class="modal-title">Manual Light Control</h4>
+	// 				</div>
+	// 				<div class="modal-body">
+	// 					<p>A manual light control switch is located in the A/V booth. Go into the A/V booth and look for the following switch (usually on the counter between the two sets of computer monitors)</p>
+	// 					<img src="/static/manual-light-panel.png" align="left" height="200" style="margin-right: 24px;" />
+	// 					<ul>
+	// 						<li>Press the <b>white</b> button (<b>#7</b>) to turn all house lights on.</l i>
+	// 						<li>Press the <b>black</b> button (<b>#8</b>) to turn all house lights off.</li>
+	// 						<li>Press the <b>gray</b> buttons (<b>#1</b> & <b>#2</b>, <b>#3</b> & <b>#4</b>, etc.) to dim individual sections of lights.</li>
+	// 						<li>The other colored buttons activate a variety of preset light levels</li>
+	// 					</ul>
+	// 					<p>There is a separate light switch on the right side of the stage in front of the drum cage to turn on overhead stage lights.</p>
+	// 				</div>
+	// 				<div class="modal-footer">
+	// 					<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+	// 				</div>
+	// 			</div>
 	// 		</div>
-	// 	  </div>
 	// 	</div>
 	//
 	// 	<!-- Modal -->
 	// 	<div class="modal fade" id="connectionTroubleshooter" tabindex="-1" role="dialog">
-	// 	  <div class="modal-dialog" role="document">
-	// 		<div class="modal-content">
-	// 		  <div class="modal-header">
-	// 			<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-	// 			<h4 class="modal-title">Troubleshoot Connection Issues</h4>
-	// 		  </div>
-	// 		  <div class="modal-body">
-	// 			<p>A <i class="fa fa-times-circle" style="color: red;"></i> next to "Server" in the top right corner means the control server for the wall panels is unreachable. Ensure the wall panel is connected to wifi and the lighting PC is turned on in the A/V booth.</p>
-	// 			<p>A <i class="fa fa-times-circle" style="color: red;"></i> next to "MxManager" in the top right corner means the control server can not talk to the lighting software. Check the lighting computer in the A/V booth and make sure the M-PC and M-Series Manager applications are both running.</p>
-	// 			<p>A <i class="fa fa-times-circle" style="color: red;"></i> next to "MPC" in the top right corner means the lighting software is not running or unresponsive. Check the lighting computer in the A/V booth and make sure M-PC is running.</p>
-	// 		  </div>
-	// 		  <div class="modal-footer">
-	// 			<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-	// 		  </div>
+	// 		<div class="modal-dialog" role="document">
+	// 			<div class="modal-content">
+	// 				<div class="modal-header">
+	// 					<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+	// 					<h4 class="modal-title">Troubleshoot Connection Issues</h4>
+	// 				</div>
+	// 				<div class="modal-body">
+	// 					<p>A <i class="fa fa-times-circle" style="color: red;"></i> next to "Server" in the top right corner means the control server for the wall panels is unreachable. Ensure the wall panel is connected to wifi and the lighting PC is turned on in the A/V booth.</p>
+	// 					<p>A <i class="fa fa-times-circle" style="color: red;"></i> next to "MxManager" in the top right corner means the control server can not talk to the lighting software. Check the lighting computer in the A/V booth and make sure the M-PC and M-Series Manager applications are both running.</p>
+	// 					<p>A <i class="fa fa-times-circle" style="color: red;"></i> next to "MPC" in the top right corner means the lighting software is not running or unresponsive. Check the lighting computer in the A/V booth and make sure M-PC is running.</p>
+	// 				</div>
+	// 				<div class="modal-footer">
+	// 					<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+	// 				</div>
+	// 			</div>
 	// 		</div>
-	// 	  </div>
 	// 	</div>
 	// </div>
 	// </template>
@@ -13258,30 +13259,24 @@
 	//
 	// <template>
 	// <div class="lockscreen-wrapper">
-	//   <div class="lockscreen-logo">
-	//     Auditorium Lighting
-	//   </div>
+	// 	<div class="lockscreen-logo">Auditorium Lighting</div>
 	//
 	//   	<div class="text-center" style="margin-bottom: 24px;">
 	// 		Wall controls are locked out by the lighting console. Please enter the password to unlock.
 	// 	</div>
-	//   <!-- START LOCK SCREEN ITEM -->
-	//   <div class="lockscreen-item">
 	//
-	//     <!-- lockscreen credentials (contains the form) -->
-	//     <form @submit.prevent="submitUnlockCode()" class="lockscreen-credentials">
-	//       <div class="input-group">
-	//         <input type="password" v-model="unlock_code" class="form-control" placeholder="password">
+	// 	<div class="lockscreen-item">
+	// 		<form @submit.prevent="submitUnlockCode()" class="lockscreen-credentials">
+	// 			<div class="input-group">
+	// 				<input type="password" v-model="unlock_code" class="form-control" placeholder="password">
 	//
-	//         <div class="input-group-btn">
-	//           <button type="button" class="btn" @click="submitUnlockCode()"><i class="fa fa-arrow-right text-muted"></i></button>
-	//         </div>
-	//       </div>
-	//     </form>
-	//     <!-- /.lockscreen credentials -->
+	// 				<div class="input-group-btn">
+	// 					<button type="button" class="btn" @click="submitUnlockCode()"><i class="fa fa-arrow-right text-muted"></i></button>
+	// 				</div>
+	// 			</div>
+	// 		</form>
+	// 	</div>
 	//
-	//   </div>
-	//   <!-- /.lockscreen-item -->
 	// 	<transition name="fade">
 	// 		<div class="callout callout-danger" style="margin-bottom: 24px; text-align: center;" v-if="error">
 	// 			{{error}}
@@ -13316,10 +13311,10 @@
 		//
 		// <style>
 		// .fade-enter-active, .fade-leave-active {
-		//   transition: opacity .5s
+		// 	transition: opacity .5s
 		// }
 		// .fade-enter, .fade-leave-to /* .fade-leave-active in <2.1.8 */ {
-		//   opacity: 0
+		// 	opacity: 0
 		// }
 		// </style>
 
@@ -13360,7 +13355,7 @@
 
 
 	// module
-	exports.push([module.id, "\r\n.fade-enter-active, .fade-leave-active {\r\n  transition: opacity .5s\r\n}\r\n.fade-enter, .fade-leave-to /* .fade-leave-active in <2.1.8 */ {\r\n  opacity: 0\r\n}\r\n", ""]);
+	exports.push([module.id, "\r\n.fade-enter-active, .fade-leave-active {\r\n\ttransition: opacity .5s\r\n}\r\n.fade-enter, .fade-leave-to /* .fade-leave-active in <2.1.8 */ {\r\n\topacity: 0\r\n}\r\n", ""]);
 
 	// exports
 

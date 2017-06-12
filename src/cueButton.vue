@@ -39,7 +39,11 @@ module.exports = {
 	methods: {
 		toggleCue: function() {
 			//window.ws.send('{"cmd":"GQL '+this.$props.cue+'"}');
-			this.$root.sendCommand('cuelistGo ' + this.$props.cue);
+			if (this.isActive()) {
+				this.$root.sendCommand('cuelistRelease ' + this.$props.cue);
+			} else {
+				this.$root.sendCommand('cuelistGo ' + this.$props.cue);
+			}
 			this.$data.fading = true;
 			var data = this.$data;
 			setTimeout(function() { data.fading = false; }, 4000);
