@@ -38,7 +38,6 @@ module.exports = {
 	},
 	methods: {
 		toggleCue: function() {
-			//window.ws.send('{"cmd":"GQL '+this.$props.cue+'"}');
 			if (this.isActive()) {
 				this.$root.sendCommand('cuelistRelease ' + this.$props.cue);
 			} else {
