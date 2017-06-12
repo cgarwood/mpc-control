@@ -129,6 +129,10 @@ const app = new Vue({
 		manuallyUnlock: function(unlock_code) {
 			this.$data.manuallyUnlocked = true;
 			router.replace('/controls');
+		},
+		manuallyLock: function() {
+			this.$data.manuallyUnlocked = false;
+			router.replace('/locked');
 		}
 	}
 })
