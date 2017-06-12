@@ -16,30 +16,24 @@
 
 <template>
 <div class="lockscreen-wrapper">
-  <div class="lockscreen-logo">
-    Auditorium Lighting
-  </div>
+	<div class="lockscreen-logo">Auditorium Lighting</div>
 
   	<div class="text-center" style="margin-bottom: 24px;">
 		Wall controls are locked out by the lighting console. Please enter the password to unlock.
 	</div>
-  <!-- START LOCK SCREEN ITEM -->
-  <div class="lockscreen-item">
- 
-    <!-- lockscreen credentials (contains the form) -->
-    <form @submit.prevent="submitUnlockCode()" class="lockscreen-credentials">
-      <div class="input-group">
-        <input type="password" v-model="unlock_code" class="form-control" placeholder="password">
 
-        <div class="input-group-btn">
-          <button type="button" class="btn" @click="submitUnlockCode()"><i class="fa fa-arrow-right text-muted"></i></button>
-        </div>
-      </div>
-    </form>
-    <!-- /.lockscreen credentials -->
+	<div class="lockscreen-item">
+		<form @submit.prevent="submitUnlockCode()" class="lockscreen-credentials">
+			<div class="input-group">
+				<input type="password" v-model="unlock_code" class="form-control" placeholder="password">
 
-  </div>
-  <!-- /.lockscreen-item -->
+				<div class="input-group-btn">
+					<button type="button" class="btn" @click="submitUnlockCode()"><i class="fa fa-arrow-right text-muted"></i></button>
+				</div>
+			</div>
+		</form>
+	</div>
+
 	<transition name="fade">
 		<div class="callout callout-danger" style="margin-bottom: 24px; text-align: center;" v-if="error">
 			{{error}}
@@ -73,9 +67,9 @@ module.exports = {
 
 <style>
 .fade-enter-active, .fade-leave-active {
-  transition: opacity .5s
+	transition: opacity .5s
 }
 .fade-enter, .fade-leave-to /* .fade-leave-active in <2.1.8 */ {
-  opacity: 0
+	opacity: 0
 }
 </style>
