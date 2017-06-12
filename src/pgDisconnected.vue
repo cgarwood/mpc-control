@@ -31,8 +31,8 @@
 		</p>
 		<p class="text-center"><a data-toggle="modal" data-target="#manualLights">Need to manually activate the lights?</a></p>
 	</div>
-
-	<!-- Modal -->
+	
+	
 	<div class="modal fade" id="manualLights" tabindex="-1" role="dialog" >
 		<div class="modal-dialog" role="document">
 			<div class="modal-content">
@@ -58,7 +58,6 @@
 		</div>
 	</div>
 
-	<!-- Modal -->
 	<div class="modal fade" id="connectionTroubleshooter" tabindex="-1" role="dialog">
 		<div class="modal-dialog" role="document">
 			<div class="modal-content">
