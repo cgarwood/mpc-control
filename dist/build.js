@@ -68,6 +68,7 @@
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+	//Import Vue 
 	_vue2.default.use(_vueRouter2.default);
 
 	//Import Components
@@ -76,6 +77,7 @@
 	//Import Route Components
 
 
+	//Setup Vue Routes
 	var routes = [{ path: '/disconnected', component: _pgDisconnected2.default }, { path: '/locked', component: _pgLocked2.default }, { path: '/controls', component: _pgControls2.default }];
 
 	var router = new _vueRouter2.default({
@@ -100,11 +102,9 @@
 
 			//Get initial information
 			ws.send('{"cmd":"getActiveCuelists"}');
-			//setTimeout(function() {ws.send('{"cmd":"getAllCuelists"}')}, 500); 
 		};
 
 		ws.onmessage = function (e) {
-			app.$data['output'] += e.data + '\n';
 			var data = JSON.parse(e.data);
 			console.log(e.data);
 
@@ -116,7 +116,6 @@
 				app.$data['activeCuelists'] = data.activeCuelists;
 
 				//Loop to check for the lockout cuelist
-
 				var lockedOut = false;
 				app.$data['activeCuelists'].forEach(function (cl) {
 					if (cl.id == window.config.lockout_cuelist) {
@@ -186,7 +185,6 @@
 			'connectedWebsocket': false,
 			'connectedTelnet': false,
 			'connectedMPC': false,
-			'output': 'Server log:\n',
 			'activeCuelists': [],
 			'allCuelists': [],
 			'lockedOut': false,
@@ -13035,7 +13033,6 @@
 		},
 		methods: {
 			toggleCue: function toggleCue() {
-				//window.ws.send('{"cmd":"GQL '+this.$props.cue+'"}');
 				if (this.isActive()) {
 					this.$root.sendCommand('cuelistRelease ' + this.$props.cue);
 				} else {
@@ -13313,7 +13310,7 @@
 		// .fade-enter-active, .fade-leave-active {
 		// 	transition: opacity .5s
 		// }
-		// .fade-enter, .fade-leave-to /* .fade-leave-active in <2.1.8 */ {
+		// .fade-enter, .fade-leave-to {
 		// 	opacity: 0
 		// }
 		// </style>
@@ -13355,7 +13352,7 @@
 
 
 	// module
-	exports.push([module.id, "\r\n.fade-enter-active, .fade-leave-active {\r\n\ttransition: opacity .5s\r\n}\r\n.fade-enter, .fade-leave-to /* .fade-leave-active in <2.1.8 */ {\r\n\topacity: 0\r\n}\r\n", ""]);
+	exports.push([module.id, "\r\n.fade-enter-active, .fade-leave-active {\r\n\ttransition: opacity .5s\r\n}\r\n.fade-enter, .fade-leave-to {\r\n\topacity: 0\r\n}\r\n", ""]);
 
 	// exports
 

@@ -1,3 +1,4 @@
+//Import Vue 
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 Vue.use(VueRouter);
@@ -10,15 +11,16 @@ import pgDisconnected from './pgDisconnected.vue';
 import pgLocked from './pgLocked.vue';
 import pgControls from './pgControls.vue';
 
+//Setup Vue Routes
 const routes = [
 	{ path: '/disconnected', component: pgDisconnected },
 	{ path: '/locked', component: pgLocked },
 	{ path: '/controls', component: pgControls }
-]
+];
 
 const router = new VueRouter({
 	routes
-})
+});
 
 //Websockets for communicating with server
 var ws;
@@ -38,11 +40,9 @@ function connectWebsocket() {
 
 		//Get initial information
 		ws.send('{"cmd":"getActiveCuelists"}');
-		//setTimeout(function() {ws.send('{"cmd":"getAllCuelists"}')}, 500); 
 	}
 	
 	ws.onmessage = function(e) {
-		app.$data['output'] += e.data + '\n';
 		var data = JSON.parse(e.data);
 		console.log(e.data);
 				
@@ -54,7 +54,6 @@ function connectWebsocket() {
 			app.$data['activeCuelists'] = data.activeCuelists;
 			
 			//Loop to check for the lockout cuelist
-
 			var lockedOut = false;
 			app.$data['activeCuelists'].forEach(function(cl) {
 				if (cl.id == window.config.lockout_cuelist) {  lockedOut = true; }
@@ -114,7 +113,6 @@ const app = new Vue({
 		'connectedWebsocket' : false,
 		'connectedTelnet' : false,
 		'connectedMPC' : false,
-		'output': 'Server log:\n',
 		'activeCuelists' : [],
 		'allCuelists' : [],
 		'lockedOut' : false,

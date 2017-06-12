@@ -57,6 +57,13 @@
 			left: 20px;
 			padding-left: 0px;
 		}
+		
+		.fadePage-enter-active, .fadePage-leave-active {
+			transition: opacity .75s
+		}
+		.fadePage-enter, .fadePage-leave-to {
+			opacity: 0
+		}
 	</style>
 </head>
 
@@ -71,7 +78,7 @@
       <!-- Navbar Right Menu -->
       <div class="navbar-custom-menu">
         <ul class="nav navbar-nav">
-          
+          <li v-if="manuallyUnlocked"><a href="#" class="text-red"><i class="fa fa-unlock"></i></a></li>
           <!-- Control Sidebar Toggle Button -->
           <li>
             <a href="#" data-toggle="control-sidebar"><i class="fa fa-gears"></i></a>
@@ -86,7 +93,9 @@
   <div class="content-wrapper">
     <!-- Main content -->
     <section class="content">
-		<router-view></router-view>
+		<transition name="fadePage" mode="out-in">
+			<router-view></router-view>
+		</transition>
 	</section>
   </div>
 </div>
