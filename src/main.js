@@ -52,6 +52,19 @@ function connectWebsocket() {
 		}
 		if (data.activeCuelists !== undefined) {
 			app.$data['activeCuelists'] = data.activeCuelists;
+			
+			//Loop to check for the lockout cuelist
+
+			var lockedOut = false;
+			app.$data['activeCuelists'].forEach(function(cl) {
+				if (cl.id == window.config.lockout_cuelist) {  lockedOut = true; }
+			});
+			app.$data['lockedOut'] = lockedOut;
+			
+			if (lockedOut && !app.$data.manuallyUnlocked) { router.replace('/locked'); } else { router.replace('/controls'); }
+			
+			//If no longer locked out, reset the manuallyUnlocked key
+			if (lockedOut == false) { app.$data.manuallyUnlocked = false; }
 		}
 		if (data.connectedTelnet !== undefined) {
 			app.$data['connectedTelnet'] = data.connectedTelnet;
@@ -103,7 +116,9 @@ const app = new Vue({
 		'connectedMPC' : false,
 		'output': 'Server log:\n',
 		'activeCuelists' : [],
-		'allCuelists' : []
+		'allCuelists' : [],
+		'lockedOut' : false,
+		'manuallyUnlocked' : false
 	},
 	mounted: function() {
 		connectWebsocket();
@@ -111,6 +126,10 @@ const app = new Vue({
 	methods: {
 		sendCommand: function(cmd) {
 			ws.send('{"cmd":"'+cmd+'"}');
+		},
+		manuallyUnlock: function(unlock_code) {
+			this.$data.manuallyUnlocked = true;
+			router.replace('/controls');
 		}
 	}
 })

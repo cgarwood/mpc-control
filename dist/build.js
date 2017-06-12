@@ -114,6 +114,27 @@
 			}
 			if (data.activeCuelists !== undefined) {
 				app.$data['activeCuelists'] = data.activeCuelists;
+
+				//Loop to check for the lockout cuelist
+
+				var lockedOut = false;
+				app.$data['activeCuelists'].forEach(function (cl) {
+					if (cl.id == window.config.lockout_cuelist) {
+						lockedOut = true;
+					}
+				});
+				app.$data['lockedOut'] = lockedOut;
+
+				if (lockedOut && !app.$data.manuallyUnlocked) {
+					router.replace('/locked');
+				} else {
+					router.replace('/controls');
+				}
+
+				//If no longer locked out, reset the manuallyUnlocked key
+				if (lockedOut == false) {
+					app.$data.manuallyUnlocked = false;
+				}
 			}
 			if (data.connectedTelnet !== undefined) {
 				app.$data['connectedTelnet'] = data.connectedTelnet;
@@ -167,7 +188,9 @@
 			'connectedMPC': false,
 			'output': 'Server log:\n',
 			'activeCuelists': [],
-			'allCuelists': []
+			'allCuelists': [],
+			'lockedOut': false,
+			'manuallyUnlocked': false
 		},
 		mounted: function mounted() {
 			connectWebsocket();
@@ -175,6 +198,10 @@
 		methods: {
 			sendCommand: function sendCommand(cmd) {
 				ws.send('{"cmd":"' + cmd + '"}');
+			},
+			manuallyUnlock: function manuallyUnlock(unlock_code) {
+				this.$data.manuallyUnlocked = true;
+				router.replace('/controls');
 			}
 		}
 	});
@@ -12568,6 +12595,8 @@
 
 	var __vue_script__, __vue_template__
 	__webpack_require__(7)
+	__webpack_require__(20)
+	__vue_script__ = __webpack_require__(19)
 	__vue_template__ = __webpack_require__(11)
 	module.exports = __vue_script__ || {}
 	if (module.exports.__esModule) module.exports = module.exports.default
@@ -12936,7 +12965,7 @@
 /* 11 */
 /***/ (function(module, exports) {
 
-	module.exports = "\r\n<div class=\"lockscreen-wrapper\">\r\n  <div class=\"lockscreen-logo\">\r\n    Auditorium Lighting\r\n  </div>\r\n\r\n  \t<div class=\"text-center\" style=\"margin-bottom: 24px;\">\r\n\t\tWall controls are locked out. Please enter the password to unlock\r\n\t</div>\r\n  <!-- START LOCK SCREEN ITEM -->\r\n  <div class=\"lockscreen-item\">\r\n \r\n    <!-- lockscreen credentials (contains the form) -->\r\n    <form class=\"lockscreen-credentials\">\r\n      <div class=\"input-group\">\r\n        <input type=\"password\" class=\"form-control\" placeholder=\"password\">\r\n\r\n        <div class=\"input-group-btn\">\r\n          <button type=\"button\" class=\"btn\"><i class=\"fa fa-arrow-right text-muted\"></i></button>\r\n        </div>\r\n      </div>\r\n    </form>\r\n    <!-- /.lockscreen credentials -->\r\n\r\n  </div>\r\n  <!-- /.lockscreen-item -->\r\n\r\n</div>\r\n";
+	module.exports = "\r\n<div class=\"lockscreen-wrapper\">\r\n  <div class=\"lockscreen-logo\">\r\n    Auditorium Lighting\r\n  </div>\r\n\r\n  \t<div class=\"text-center\" style=\"margin-bottom: 24px;\">\r\n\t\tWall controls are locked out by the lighting console. Please enter the password to unlock.\r\n\t</div>\r\n  <!-- START LOCK SCREEN ITEM -->\r\n  <div class=\"lockscreen-item\">\r\n \r\n    <!-- lockscreen credentials (contains the form) -->\r\n    <form @submit.prevent=\"submitUnlockCode()\" class=\"lockscreen-credentials\">\r\n      <div class=\"input-group\">\r\n        <input type=\"password\" v-model=\"unlock_code\" class=\"form-control\" placeholder=\"password\">\r\n\r\n        <div class=\"input-group-btn\">\r\n          <button type=\"button\" class=\"btn\" @click=\"submitUnlockCode()\"><i class=\"fa fa-arrow-right text-muted\"></i></button>\r\n        </div>\r\n      </div>\r\n    </form>\r\n    <!-- /.lockscreen credentials -->\r\n\r\n  </div>\r\n  <!-- /.lockscreen-item -->\r\n\t<transition name=\"fade\">\r\n\t\t<div class=\"callout callout-danger\" style=\"margin-bottom: 24px; text-align: center;\" v-if=\"error\">\r\n\t\t\t{{error}}\r\n\t\t</div>\r\n\t</transition>\r\n</div>\r\n";
 
 /***/ }),
 /* 12 */
@@ -13204,6 +13233,137 @@
 /***/ (function(module, exports) {
 
 	module.exports = "\r\n\t<div class=\"row\">\r\n\t\t<div class=\"col-md-4\">\r\n\t\t\t<cue-button :cue=\"201\" name=\"House Full\" type=\"House Lights\" color=\"bg-yellow\"></cue-button>\r\n\t\t\t<cue-button :cue=\"202\" name=\"House Half\" type=\"House Lights\" color=\"bg-yellow\"></cue-button>\r\n\t\t\t<cue-button :cue=\"203\" name=\"House Low\" type=\"House Lights\" color=\"bg-yellow\"></cue-button>\r\n\t\t\t<cue-button :cue=\"200\" name=\"House Off\" type=\"House Lights\" color=\"bg-red\" icon=\"fa-power-off\"></cue-button>\r\n\t\t</div>\r\n\t\t<div class=\"col-md-4\">\r\n\t\t\t<cue-button :cue=\"1\" name=\"Front Lights\" type=\"Stage Lighting\" icon=\"fa-sun-o\"></cue-button>\r\n\t\t\t<cue-button :cue=\"31\" name=\"Backdrop Colors\" type=\"Stage Lighting\" icon=\"fa-sun-o\"></cue-button>\r\n\t\t\t<cue-button :cue=\"27\" name=\"Backdrop White\" type=\"Stage Lighting\" icon=\"fa-sun-o\"></cue-button>\r\n\t\t</div>\r\n\t\t<div class=\"col-md-4\">\r\n\t\t\t<cue-button :cue=\"12\" name=\"Pre/Post Service\" type=\"Presets\" color=\"bg-green\"></cue-button>\r\n\t\t\t<cue-button :cue=\"13\" name=\"Worship\" type=\"Presets\" color=\"bg-green\"></cue-button>\r\n\t\t\t<cue-button :cue=\"14\" name=\"Sermon\" type=\"Presets\" color=\"bg-green\"></cue-button>\r\n\t\t\t<cue-button :cue=\"11\" name=\"All Off\" type=\"Presets\" color=\"bg-red\" icon=\"fa-power-off\"></cue-button>\r\n\t\t</div>\r\n\t</div>\r\n";
+
+/***/ }),
+/* 19 */
+/***/ (function(module, exports) {
+
+	'use strict';
+
+	// <style type="text/css">
+	// .lockscreen-wrapper {
+	// 	max-width: 600px;
+	// 	color: white;
+	// }
+	// .lockscreen-logo {
+	// 	color: white;
+	// }
+	// .lockscreen-item {
+	// 	color: white;
+	// }
+	// .lockscreen-credentials {
+	// 	margin-left: 0;
+	// }
+	// </style>
+	//
+	// <template>
+	// <div class="lockscreen-wrapper">
+	//   <div class="lockscreen-logo">
+	//     Auditorium Lighting
+	//   </div>
+	//
+	//   	<div class="text-center" style="margin-bottom: 24px;">
+	// 		Wall controls are locked out by the lighting console. Please enter the password to unlock.
+	// 	</div>
+	//   <!-- START LOCK SCREEN ITEM -->
+	//   <div class="lockscreen-item">
+	//
+	//     <!-- lockscreen credentials (contains the form) -->
+	//     <form @submit.prevent="submitUnlockCode()" class="lockscreen-credentials">
+	//       <div class="input-group">
+	//         <input type="password" v-model="unlock_code" class="form-control" placeholder="password">
+	//
+	//         <div class="input-group-btn">
+	//           <button type="button" class="btn" @click="submitUnlockCode()"><i class="fa fa-arrow-right text-muted"></i></button>
+	//         </div>
+	//       </div>
+	//     </form>
+	//     <!-- /.lockscreen credentials -->
+	//
+	//   </div>
+	//   <!-- /.lockscreen-item -->
+	// 	<transition name="fade">
+	// 		<div class="callout callout-danger" style="margin-bottom: 24px; text-align: center;" v-if="error">
+	// 			{{error}}
+	// 		</div>
+	// 	</transition>
+	// </div>
+	// </template>
+	//
+	// <script>
+	module.exports = {
+		data: function data() {
+			return {
+				unlock_code: '',
+				error: ''
+			};
+		},
+		methods: {
+			submitUnlockCode: function submitUnlockCode() {
+				if (this.$data.unlock_code == window.config.unlock_code) {
+					this.$root.manuallyUnlock();
+				} else {
+					this.$data.error = 'Incorrect unlock code';
+					this.$data.unlock_code = '';
+					var self = this;
+					setTimeout(function () {
+						self.$data.error = '';
+					}, 5000);
+				}
+			}
+		}
+		// </script>
+		//
+		// <style>
+		// .fade-enter-active, .fade-leave-active {
+		//   transition: opacity .5s
+		// }
+		// .fade-enter, .fade-leave-to /* .fade-leave-active in <2.1.8 */ {
+		//   opacity: 0
+		// }
+		// </style>
+
+	};
+
+/***/ }),
+/* 20 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	// style-loader: Adds some css to the DOM by adding a <style> tag
+
+	// load the styles
+	var content = __webpack_require__(21);
+	if(typeof content === 'string') content = [[module.id, content, '']];
+	// add the styles to the DOM
+	var update = __webpack_require__(10)(content, {});
+	if(content.locals) module.exports = content.locals;
+	// Hot Module Replacement
+	if(false) {
+		// When the styles change, update the <style> tags
+		if(!content.locals) {
+			module.hot.accept("!!../node_modules/css-loader/index.js!../node_modules/vue-loader/lib/style-rewriter.js?id=_v-f19f0404&file=pgLocked.vue!../node_modules/vue-loader/lib/selector.js?type=style&index=1!./pgLocked.vue", function() {
+				var newContent = require("!!../node_modules/css-loader/index.js!../node_modules/vue-loader/lib/style-rewriter.js?id=_v-f19f0404&file=pgLocked.vue!../node_modules/vue-loader/lib/selector.js?type=style&index=1!./pgLocked.vue");
+				if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+				update(newContent);
+			});
+		}
+		// When the module is disposed, remove the <style> tags
+		module.hot.dispose(function() { update(); });
+	}
+
+/***/ }),
+/* 21 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	exports = module.exports = __webpack_require__(9)();
+	// imports
+
+
+	// module
+	exports.push([module.id, "\r\n.fade-enter-active, .fade-leave-active {\r\n  transition: opacity .5s\r\n}\r\n.fade-enter, .fade-leave-to /* .fade-leave-active in <2.1.8 */ {\r\n  opacity: 0\r\n}\r\n", ""]);
+
+	// exports
+
 
 /***/ })
 /******/ ]);
