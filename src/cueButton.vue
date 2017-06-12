@@ -5,7 +5,7 @@
 		<div class="info-box-content">
 			<span class="info-box-text">{{type}}</span>
 			<span class="info-box-number">{{name}}</span>
-			<span class="label bg-yellow" v-if="fading">FADING</span>
+			<span class="label bg-yellow" v-if="fading"><i class="fa fa-spinner fa-spin"></i> FADING</span>
 			<span class="label bg-green" v-if="isActive()">ACTIVE</span>
 		</div>
     </div>
@@ -42,7 +42,7 @@ module.exports = {
 			this.$root.sendCommand('cuelistGo ' + this.$props.cue);
 			this.$data.fading = true;
 			var data = this.$data;
-			setTimeout(function() { data.fading = false; }, 5000);
+			setTimeout(function() { data.fading = false; }, 4000);
 		},
 		isActive: function() {
 			var active = false;

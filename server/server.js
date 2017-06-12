@@ -50,6 +50,9 @@ function webHandler(req, res) {
 var connectedMPC = false;
 var connectedTelnet = false;
 
+// Other MPC global variables
+var activeCuelists = [];
+
 // Connect to MxManager Telnet
 tnc.connect({
 	host: config.mxmanager_ip,
@@ -168,7 +171,6 @@ function mxStatus() {
 	console.log('>> Status');
 	tnc.send('Status', {waitfor:'.\r\n'}, function(e,d) {
 		broadcast(d);
-		//console.log('<'+d);
 	});
 }
 function mxGetAllCuelists() {
@@ -196,9 +198,8 @@ function mxGetAllCuelists() {
 function mxGetActiveCuelists() {
 	console.log('>> QLActive');
 	tnc.send('QLActive', {waitfor:'.\r\n'}, function(e,d) {
-		//console.log(d);
 		var lines = d.split('\r\n');
-		var cuelists = [];
+		activeCuelists = [];
 		lines.forEach(function each(line) {
 			switch (line) {
 				case "200 Ok":
@@ -209,30 +210,31 @@ function mxGetActiveCuelists() {
 				default:
 					var id = line.substring(0,5);
 					var title = line.substring(8);
-					cuelists.push({'id':id,'title':title});
+					activeCuelists.push({'id':id,'title':title});
 					break;
 			}
 		});
-		broadcast({'cmd':'getActiveCuelists','activeCuelists':cuelists});
+		broadcast({'cmd':'getActiveCuelists','activeCuelists':activeCuelists});
 	});
 }
 
 function mxCuelistGo(number) {
 	console.log('>> GQL ' + number);
 	tnc.send('GQL ' + number, {waitfor:'.\r\n'}, function(e,d) {
-		//console.log(d);
 		var lines = d.split('\r\n');
 		lines.forEach(function each(line) {
 			if (line.slice(-9) == "not found") {
 				console.log('ERROR: CL ' + number + ' not found');
 			}
+			if (line.substring(0,6) == "QList:") {
+				//mxGetActiveCuelists() won't show an active cue until it has finished fading in
+				var id = line.substring(7,11);
+				var title = line.substring(13,line.length-8);
+				activeCuelists.push({'id':id,'title':title});
+				broadcast({'cmd':'getActiveCuelists','activeCuelists':activeCuelists});
+			}
 		});
 	});
-	//It would be nice to run mxGetActiveCuelists() to send an updated list
-	//of active cuelists back to the client automatically.
-	//However, it doesn't update the list until the cuelist is done fading in,
-	//so doing it automatically here would be unreliable as fade times can be
-	//set to anything in a cue
 }
 
 function mxCuelistRelease(number) {

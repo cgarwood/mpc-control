@@ -12973,7 +12973,7 @@
 	// 		<div class="info-box-content">
 	// 			<span class="info-box-text">{{type}}</span>
 	// 			<span class="info-box-number">{{name}}</span>
-	// 			<span class="label bg-yellow" v-if="fading">FADING</span>
+	// 			<span class="label bg-yellow" v-if="fading"><i class="fa fa-spinner fa-spin"></i> FADING</span>
 	// 			<span class="label bg-green" v-if="isActive()">ACTIVE</span>
 	// 		</div>
 	//     </div>
@@ -13012,7 +13012,7 @@
 				var data = this.$data;
 				setTimeout(function () {
 					data.fading = false;
-				}, 5000);
+				}, 4000);
 			},
 			isActive: function isActive() {
 				var active = false;
@@ -13034,7 +13034,7 @@
 /* 14 */
 /***/ (function(module, exports) {
 
-	module.exports = "\r\n\t<div class=\"info-box\" :data-cue=\"cue\" @click=\"toggleCue()\">\r\n\t\t<span class=\"info-box-icon\" :class=\"color\"><i class=\"fa\" :class=\"icon\"></i></span>\r\n\r\n\t\t<div class=\"info-box-content\">\r\n\t\t\t<span class=\"info-box-text\">{{type}}</span>\r\n\t\t\t<span class=\"info-box-number\">{{name}}</span>\r\n\t\t\t<span class=\"label bg-yellow\" v-if=\"fading\">FADING</span>\r\n\t\t\t<span class=\"label bg-green\" v-if=\"isActive()\">ACTIVE</span>\r\n\t\t</div>\r\n    </div>\r\n";
+	module.exports = "\r\n\t<div class=\"info-box\" :data-cue=\"cue\" @click=\"toggleCue()\">\r\n\t\t<span class=\"info-box-icon\" :class=\"color\"><i class=\"fa\" :class=\"icon\"></i></span>\r\n\r\n\t\t<div class=\"info-box-content\">\r\n\t\t\t<span class=\"info-box-text\">{{type}}</span>\r\n\t\t\t<span class=\"info-box-number\">{{name}}</span>\r\n\t\t\t<span class=\"label bg-yellow\" v-if=\"fading\"><i class=\"fa fa-spinner fa-spin\"></i> FADING</span>\r\n\t\t\t<span class=\"label bg-green\" v-if=\"isActive()\">ACTIVE</span>\r\n\t\t</div>\r\n    </div>\r\n";
 
 /***/ }),
 /* 15 */
