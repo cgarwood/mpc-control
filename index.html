@@ -80,7 +80,7 @@
           <li v-if="manuallyUnlocked"><a href="#" class="text-red"><i class="fa fa-unlock"></i></a></li>
           <!-- Control Sidebar Toggle Button -->
           <li>
-            <a href="#" data-toggle="control-sidebar"><i class="fa fa-gears"></i></a>
+            <a href="" data-toggle="control-sidebar"><i class="fa fa-gears"></i></a>
           </li>
         </ul>
       </div>
@@ -97,10 +97,34 @@
 		</transition>
 	</section>
   </div>
+  
+	<aside class="control-sidebar control-sidebar-dark">
+		<ul class="stats">
+			<li>
+				<i v-if="connectedWebsocket" class="fa fa-check-circle" style="color: green;"></i>
+				<i v-if="!connectedWebsocket" class="fa fa-times-circle" style="color: red;"></i>
+				Server: {{config.websocket_server}}
+			</li>
+			<li>
+				<i v-if="connectedTelnet && connectedWebsocket" class="fa fa-check-circle" style="color: green;"></i>
+				<i v-if="!connectedTelnet && connectedWebsocket" class="fa fa-times-circle" style="color: red;"></i>
+				<i v-if="!connectedWebsocket" class="fa fa-question-circle" style="color: #f39c12;"></i>
+				MxManager
+			</li>
+			<li>
+				<i v-if="connectedMPC && connectedTelnet && connectedWebsocket" class="fa fa-check-circle" style="color: green;"></i>
+				<i v-if="!connectedMPC && connectedTelnet" class="fa fa-times-circle" style="color: red;"></i>
+				<i v-if="!connectedTelnet || !connectedWebsocket" class="fa fa-question-circle" style="color: #f39c12;"></i>
+				MPC
+			</li>
+		</ul>
+    </aside>
+    <div class="control-sidebar-bg"></div>
 </div>
 
 <script src="dist/build.js"></script>
 <script src="dist/jquery-2.2.3.min.js"></script>
 <script src="dist/bootstrap.min.js"></script>
- </body>
- </html>
+<script src="dist/adminlte.js"></script>
+</body>
+</html>

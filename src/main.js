@@ -110,6 +110,7 @@ const app = new Vue({
 	router,
 	data: {
 		'window' : window,
+		'config' : window.config,
 		'connectedWebsocket' : false,
 		'connectedTelnet' : false,
 		'connectedMPC' : false,
