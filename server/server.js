@@ -24,6 +24,7 @@ var mimeTypes = {
 var telnet = require('telnet-client');
 var tnc = new telnet();
 var reconnectTimer = 0;
+var heartbeatTimer = 0;
 
 console.log('> Starting server...');
 
@@ -80,7 +81,7 @@ tnc.on('ready', function(prompt) {
 	console.log('> Telnet Connection Established');
 	
 	//Start a loop to broadcast the list of active cuelists every 5 seconds
-	setInterval(function() { if (connectedTelnet) { heartbeat();} }, 5000);
+	heartbeatTimer = setInterval(function() { if (connectedTelnet) { heartbeat();} }, 5000);
 });
 
 //This timeout function seems to always be called, but the connection stays active.
@@ -98,6 +99,7 @@ tnc.on('close', function() {
 	if(!reconnectTimer){
 		reconnectTimer=setInterval(function(){connectTelnet()}, 5000);
 	}
+	clearInterval(heartbeatTimer);
 });
 
 tnc.on('error', function(e) {
