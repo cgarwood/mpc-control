@@ -80,7 +80,7 @@ tnc.on('ready', function(prompt) {
 	
 	console.log('> Telnet Connection Established');
 	
-	//Start a loop to broadcast the list of active cuelists every 5 seconds
+	//Start a loop to poll MxManager for data
 	heartbeatTimer = setInterval(function() { if (connectedTelnet) { heartbeat();} }, config.polling_interval);
 });
 
@@ -165,7 +165,9 @@ function broadcast(d) {
 
 function heartbeat() {
 	mxIsMxRunning();
-	setTimeout(function() {mxGetActiveCuelists();}, 500);
+	if (connectedMPC) {
+		setTimeout(function() {mxGetActiveCuelists();}, 500);
+	}
 }
 
 //MxManager Functions
