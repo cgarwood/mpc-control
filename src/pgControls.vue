@@ -12,9 +12,9 @@
 			<cue-button :cue="27" name="Backdrop White" type="Stage Lighting" icon="fa-sun-o"></cue-button>
 		</div>
 		<div class="col-md-4">
-			<cue-button :cue="12" name="Pre/Post Service" type="Presets" color="bg-green"></cue-button>
-			<cue-button :cue="13" name="Worship" type="Presets" color="bg-green"></cue-button>
-			<cue-button :cue="14" name="Sermon" type="Presets" color="bg-green"></cue-button>
+			<cue-button :cue="12" name="Pre/Post Service" type="Presets" color="bg-green" icon="fa-star"></cue-button>
+			<cue-button :cue="13" name="Worship" type="Presets" color="bg-green" icon="fa-star"></cue-button>
+			<cue-button :cue="14" name="Sermon" type="Presets" color="bg-green" icon="fa-star"></cue-button>
 			<cue-button :cue="11" name="All Off" type="Presets" color="bg-red" icon="fa-power-off"></cue-button>
 		</div>
 	</div>
