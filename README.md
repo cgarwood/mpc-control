@@ -22,4 +22,6 @@ MPC-Control provides a customizable web interface to control Martin M-PC through
 * Start the server `node server/server.js`
 
 ### Other Notes
-Copy an image named background.jpg into the static folder to customize the background
+
+* To customize the controls page to match your environment, edit `src/pgControls.vue`. You will need to re-compile with `webpack` after editing.
+* Copy an image named background.jpg into the `static` folder to customize the background
