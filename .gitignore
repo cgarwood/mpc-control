@@ -5,6 +5,7 @@ Desktop.ini
 
 # Repository files
 node_modules/
-static/
+static/*
+!static/empty
 config.js
 server/server-config.js
