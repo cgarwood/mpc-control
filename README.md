@@ -20,3 +20,6 @@ MPC-Control provides a customizable web interface to control Martin M-PC through
 * Rename `server/server-config-example.js` to `server-config.js` and update the settings in the file to match your environment
 * Rename `config.example.js` to `config.js` and update the settings to match your environment
 * Start the server `node server/server.js`
+
+### Other Notes
+Copy an image named background.jpg into the static folder to customize the background
