@@ -51,6 +51,7 @@ function connectWebsocket() {
 			app.$data['allCuelists'] = data.allCuelists;
 		}
 		if (data.activeCuelists !== undefined) {
+			app.$data['cuelistsLoaded'] = true;
 			app.$data['activeCuelists'] = data.activeCuelists;
 			
 			//Loop to check for the lockout cuelist
@@ -117,7 +118,8 @@ const app = new Vue({
 		'activeCuelists' : [],
 		'allCuelists' : [],
 		'lockedOut' : false,
-		'manuallyUnlocked' : false
+		'manuallyUnlocked' : false,
+		'cuelistsLoaded' : false
 	},
 	mounted: function() {
 		connectWebsocket();

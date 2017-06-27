@@ -58,7 +58,7 @@
 
 	var _pgDisconnected2 = _interopRequireDefault(_pgDisconnected);
 
-	var _pgLocked = __webpack_require__(6);
+	var _pgLocked = __webpack_require__(7);
 
 	var _pgLocked2 = _interopRequireDefault(_pgLocked);
 
@@ -72,7 +72,7 @@
 	_vue2.default.use(_vueRouter2.default);
 
 	//Import Components
-	_vue2.default.component('cueButton', __webpack_require__(12));
+	_vue2.default.component('cueButton', __webpack_require__(19));
 
 	//Import Route Components
 
@@ -113,6 +113,7 @@
 				app.$data['allCuelists'] = data.allCuelists;
 			}
 			if (data.activeCuelists !== undefined) {
+				app.$data['cuelistsLoaded'] = true;
 				app.$data['activeCuelists'] = data.activeCuelists;
 
 				//Loop to check for the lockout cuelist
@@ -189,7 +190,8 @@
 			'activeCuelists': [],
 			'allCuelists': [],
 			'lockedOut': false,
-			'manuallyUnlocked': false
+			'manuallyUnlocked': false,
+			'cuelistsLoaded': false
 		},
 		mounted: function mounted() {
 			connectWebsocket();
@@ -12569,8 +12571,8 @@
 /***/ (function(module, exports, __webpack_require__) {
 
 	var __vue_script__, __vue_template__
-	__vue_script__ = __webpack_require__(15)
-	__vue_template__ = __webpack_require__(5)
+	__vue_script__ = __webpack_require__(5)
+	__vue_template__ = __webpack_require__(6)
 	module.exports = __vue_script__ || {}
 	if (module.exports.__esModule) module.exports = module.exports.default
 	if (__vue_template__) { (typeof module.exports === "function" ? module.exports.options : module.exports).template = __vue_template__ }
@@ -12578,7 +12580,7 @@
 	  var hotAPI = require("vue-hot-reload-api")
 	  hotAPI.install(require("vue"), true)
 	  if (!hotAPI.compatible) return
-	  var id = "d:\\nodejs\\mpc-control\\src\\pgDisconnected.vue"
+	  var id = "D:\\nodejs\\mpc-control\\src\\pgDisconnected.vue"
 	  if (!module.hot.data) {
 	    hotAPI.createRecord(id, module.exports)
 	  } else {
@@ -12590,17 +12592,124 @@
 /* 5 */
 /***/ (function(module, exports) {
 
-	module.exports = "\r\n\t<div class=\"pg\">\r\n\t<ul class=\"stats\">\r\n\t\t<li>\r\n\t\t\t<i v-if=\"connectedWebsocket\" class=\"fa fa-check-circle\" style=\"color: green;\"></i>\r\n\t\t\t<i v-if=\"!connectedWebsocket\" class=\"fa fa-times-circle\" style=\"color: red;\"></i>\r\n\t\t\tServer: {{config.websocket_server}}\r\n\t\t</li>\r\n\t\t<li>\r\n\t\t\t<i v-if=\"connectedTelnet && connectedWebsocket\" class=\"fa fa-check-circle\" style=\"color: green;\"></i>\r\n\t\t\t<i v-if=\"!connectedTelnet && connectedWebsocket\" class=\"fa fa-times-circle\" style=\"color: red;\"></i>\r\n\t\t\t<i v-if=\"!connectedWebsocket\" class=\"fa fa-question-circle\" style=\"color: #f39c12;\"></i>\r\n\t\t\tMxManager\r\n\t\t</li>\r\n\t\t<li>\r\n\t\t\t<i v-if=\"connectedMPC && connectedTelnet && connectedWebsocket\" class=\"fa fa-check-circle\" style=\"color: green;\"></i>\r\n\t\t\t<i v-if=\"!connectedMPC && connectedTelnet\" class=\"fa fa-times-circle\" style=\"color: red;\"></i>\r\n\t\t\t<i v-if=\"!connectedTelnet || !connectedWebsocket\" class=\"fa fa-question-circle\" style=\"color: #f39c12;\"></i>\r\n\t\t\tMPC\r\n\t\t</li>\r\n\t\t<li><a data-toggle=\"modal\" data-target=\"#connectionTroubleshooter\">Troubleshoot Connection Issues</a></li>\r\n\t</ul>\r\n\t<div class=\"lockscreen-wrapper\">\r\n\t\t<div class=\"lockscreen-logo\">Connection Lost</div>\r\n\r\n\t\t<div class=\"text-center\" style=\"margin-bottom: 24px;\">\r\n\t\t\tConnection to the server has been lost. Attempting to reconnect.\r\n\t\t</div>\r\n\t\t<p class=\"text-center\" style=\"font-size: 36px; margin-bottom: 24px;\">\r\n\t\t\t<i class=\"fa fa-refresh fa-spin\"></i>\r\n\t\t</p>\r\n\t\t<p class=\"text-center\"><a data-toggle=\"modal\" data-target=\"#manualLights\">Need to manually activate the lights?</a></p>\r\n\t</div>\r\n\t\r\n\t\r\n\t<div class=\"modal fade\" id=\"manualLights\" tabindex=\"-1\" role=\"dialog\" >\r\n\t\t<div class=\"modal-dialog\" role=\"document\">\r\n\t\t\t<div class=\"modal-content\">\r\n\t\t\t\t<div class=\"modal-header\">\r\n\t\t\t\t\t<button type=\"button\" class=\"close\" data-dismiss=\"modal\" aria-label=\"Close\"><span aria-hidden=\"true\">&times;</span></button>\r\n\t\t\t\t\t<h4 class=\"modal-title\">Manual Light Control</h4>\r\n\t\t\t\t</div>\r\n\t\t\t\t<div class=\"modal-body\">\r\n\t\t\t\t\t<p>A manual light control switch is located in the A/V booth. Go into the A/V booth and look for the following switch (usually on the counter between the two sets of computer monitors)</p>\r\n\t\t\t\t\t<img src=\"/static/manual-light-panel.png\" align=\"left\" height=\"200\" style=\"margin-right: 24px;\" />\r\n\t\t\t\t\t<ul>\r\n\t\t\t\t\t\t<li>Press the <b>white</b> button (<b>#7</b>) to turn all house lights on.</l i>\r\n\t\t\t\t\t\t<li>Press the <b>black</b> button (<b>#8</b>) to turn all house lights off.</li>\r\n\t\t\t\t\t\t<li>Press the <b>gray</b> buttons (<b>#1</b> & <b>#2</b>, <b>#3</b> & <b>#4</b>, etc.) to dim individual sections of lights.</li>\r\n\t\t\t\t\t\t<li>The other colored buttons activate a variety of preset light levels</li>\r\n\t\t\t\t\t</ul>\r\n\t\t\t\t\t<p>There is a separate light switch on the right side of the stage in front of the drum cage to turn on overhead stage lights.</p>\r\n\t\t\t\t</div>\r\n\t\t\t\t<div class=\"modal-footer\">\r\n\t\t\t\t\t<button type=\"button\" class=\"btn btn-default\" data-dismiss=\"modal\">Close</button>\r\n\t\t\t\t</div>\r\n\t\t\t</div>\r\n\t\t</div>\r\n\t</div>\r\n\r\n\t<div class=\"modal fade\" id=\"connectionTroubleshooter\" tabindex=\"-1\" role=\"dialog\">\r\n\t\t<div class=\"modal-dialog\" role=\"document\">\r\n\t\t\t<div class=\"modal-content\">\r\n\t\t\t\t<div class=\"modal-header\">\r\n\t\t\t\t\t<button type=\"button\" class=\"close\" data-dismiss=\"modal\" aria-label=\"Close\"><span aria-hidden=\"true\">&times;</span></button>\r\n\t\t\t\t\t<h4 class=\"modal-title\">Troubleshoot Connection Issues</h4>\r\n\t\t\t\t</div>\r\n\t\t\t\t<div class=\"modal-body\">\r\n\t\t\t\t\t<p>A <i class=\"fa fa-times-circle\" style=\"color: red;\"></i> next to \"Server\" in the top right corner means the control server for the wall panels is unreachable. Ensure the wall panel is connected to wifi and the lighting PC is turned on in the A/V booth.</p>\r\n\t\t\t\t\t<p>A <i class=\"fa fa-times-circle\" style=\"color: red;\"></i> next to \"MxManager\" in the top right corner means the control server can not talk to the lighting software. Check the lighting computer in the A/V booth and make sure the M-PC and M-Series Manager applications are both running.</p>\r\n\t\t\t\t\t<p>A <i class=\"fa fa-times-circle\" style=\"color: red;\"></i> next to \"MPC\" in the top right corner means the lighting software is not running or unresponsive. Check the lighting computer in the A/V booth and make sure M-PC is running.</p>\r\n\t\t\t\t</div>\r\n\t\t\t\t<div class=\"modal-footer\">\r\n\t\t\t\t\t<button type=\"button\" class=\"btn btn-default\" data-dismiss=\"modal\">Close</button>\r\n\t\t\t\t</div>\r\n\t\t\t</div>\r\n\t\t</div>\r\n\t</div>\r\n</div>\r\n";
+	"use strict";
+
+	// <template>
+	// 	<div class="pg">
+	// 	<ul class="stats">
+	// 		<li>
+	// 			<i v-if="connectedWebsocket" class="fa fa-check-circle" style="color: green;"></i>
+	// 			<i v-if="!connectedWebsocket" class="fa fa-times-circle" style="color: red;"></i>
+	// 			Server: {{config.websocket_server}}
+	// 		</li>
+	// 		<li>
+	// 			<i v-if="connectedTelnet && connectedWebsocket" class="fa fa-check-circle" style="color: green;"></i>
+	// 			<i v-if="!connectedTelnet && connectedWebsocket" class="fa fa-times-circle" style="color: red;"></i>
+	// 			<i v-if="!connectedWebsocket" class="fa fa-question-circle" style="color: #f39c12;"></i>
+	// 			MxManager
+	// 		</li>
+	// 		<li>
+	// 			<i v-if="connectedMPC && connectedTelnet && connectedWebsocket" class="fa fa-check-circle" style="color: green;"></i>
+	// 			<i v-if="!connectedMPC && connectedTelnet" class="fa fa-times-circle" style="color: red;"></i>
+	// 			<i v-if="!connectedTelnet || !connectedWebsocket" class="fa fa-question-circle" style="color: #f39c12;"></i>
+	// 			MPC
+	// 		</li>
+	// 		<li><a data-toggle="modal" data-target="#connectionTroubleshooter">Troubleshoot Connection Issues</a></li>
+	// 	</ul>
+	// 	<div class="lockscreen-wrapper">
+	// 		<div class="lockscreen-logo">Connection Lost</div>
+	//
+	// 		<div class="text-center" style="margin-bottom: 24px;">
+	// 			Connection to the server has been lost. Attempting to reconnect.
+	// 		</div>
+	// 		<p class="text-center" style="font-size: 36px; margin-bottom: 24px;">
+	// 			<i class="fa fa-refresh fa-spin"></i>
+	// 		</p>
+	// 		<p class="text-center"><a data-toggle="modal" data-target="#manualLights">Need to manually activate the lights?</a></p>
+	// 	</div>
+	//
+	//
+	// 	<div class="modal fade" id="manualLights" tabindex="-1" role="dialog" >
+	// 		<div class="modal-dialog" role="document">
+	// 			<div class="modal-content">
+	// 				<div class="modal-header">
+	// 					<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+	// 					<h4 class="modal-title">Manual Light Control</h4>
+	// 				</div>
+	// 				<div class="modal-body">
+	// 					<p>A manual light control switch is located in the A/V booth. Go into the A/V booth and look for the following switch (usually on the counter between the two sets of computer monitors)</p>
+	// 					<img src="/static/manual-light-panel.png" align="left" height="200" style="margin-right: 24px;" />
+	// 					<ul>
+	// 						<li>Press the <b>white</b> button (<b>#7</b>) to turn all house lights on.</l i>
+	// 						<li>Press the <b>black</b> button (<b>#8</b>) to turn all house lights off.</li>
+	// 						<li>Press the <b>gray</b> buttons (<b>#1</b> & <b>#2</b>, <b>#3</b> & <b>#4</b>, etc.) to dim individual sections of lights.</li>
+	// 						<li>The other colored buttons activate a variety of preset light levels</li>
+	// 					</ul>
+	// 					<p>There is a separate light switch on the right side of the stage in front of the drum cage to turn on overhead stage lights.</p>
+	// 				</div>
+	// 				<div class="modal-footer">
+	// 					<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+	// 				</div>
+	// 			</div>
+	// 		</div>
+	// 	</div>
+	//
+	// 	<div class="modal fade" id="connectionTroubleshooter" tabindex="-1" role="dialog">
+	// 		<div class="modal-dialog" role="document">
+	// 			<div class="modal-content">
+	// 				<div class="modal-header">
+	// 					<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+	// 					<h4 class="modal-title">Troubleshoot Connection Issues</h4>
+	// 				</div>
+	// 				<div class="modal-body">
+	// 					<p>A <i class="fa fa-times-circle" style="color: red;"></i> next to "Server" in the top right corner means the control server for the wall panels is unreachable. Ensure the wall panel is connected to wifi and the lighting PC is turned on in the A/V booth.</p>
+	// 					<p>A <i class="fa fa-times-circle" style="color: red;"></i> next to "MxManager" in the top right corner means the control server can not talk to the lighting software. Check the lighting computer in the A/V booth and make sure the M-PC and M-Series Manager applications are both running.</p>
+	// 					<p>A <i class="fa fa-times-circle" style="color: red;"></i> next to "MPC" in the top right corner means the lighting software is not running or unresponsive. Check the lighting computer in the A/V booth and make sure M-PC is running.</p>
+	// 				</div>
+	// 				<div class="modal-footer">
+	// 					<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+	// 				</div>
+	// 			</div>
+	// 		</div>
+	// 	</div>
+	// </div>
+	// </template>
+	//
+	// <script>
+	module.exports = {
+		computed: {
+			connectedWebsocket: function connectedWebsocket() {
+				return this.$parent.$data.connectedWebsocket;
+			},
+			connectedTelnet: function connectedTelnet() {
+				return this.$parent.$data.connectedTelnet;
+			},
+			connectedMPC: function connectedMPC() {
+				return this.$parent.$data.connectedMPC;
+			},
+			config: function config() {
+				return window.config;
+			}
+		}
+		// </script>
+
+	};
 
 /***/ }),
 /* 6 */
+/***/ (function(module, exports) {
+
+	module.exports = "\r\n\t<div class=\"pg\">\r\n\t<ul class=\"stats\">\r\n\t\t<li>\r\n\t\t\t<i v-if=\"connectedWebsocket\" class=\"fa fa-check-circle\" style=\"color: green;\"></i>\r\n\t\t\t<i v-if=\"!connectedWebsocket\" class=\"fa fa-times-circle\" style=\"color: red;\"></i>\r\n\t\t\tServer: {{config.websocket_server}}\r\n\t\t</li>\r\n\t\t<li>\r\n\t\t\t<i v-if=\"connectedTelnet && connectedWebsocket\" class=\"fa fa-check-circle\" style=\"color: green;\"></i>\r\n\t\t\t<i v-if=\"!connectedTelnet && connectedWebsocket\" class=\"fa fa-times-circle\" style=\"color: red;\"></i>\r\n\t\t\t<i v-if=\"!connectedWebsocket\" class=\"fa fa-question-circle\" style=\"color: #f39c12;\"></i>\r\n\t\t\tMxManager\r\n\t\t</li>\r\n\t\t<li>\r\n\t\t\t<i v-if=\"connectedMPC && connectedTelnet && connectedWebsocket\" class=\"fa fa-check-circle\" style=\"color: green;\"></i>\r\n\t\t\t<i v-if=\"!connectedMPC && connectedTelnet\" class=\"fa fa-times-circle\" style=\"color: red;\"></i>\r\n\t\t\t<i v-if=\"!connectedTelnet || !connectedWebsocket\" class=\"fa fa-question-circle\" style=\"color: #f39c12;\"></i>\r\n\t\t\tMPC\r\n\t\t</li>\r\n\t\t<li><a data-toggle=\"modal\" data-target=\"#connectionTroubleshooter\">Troubleshoot Connection Issues</a></li>\r\n\t</ul>\r\n\t<div class=\"lockscreen-wrapper\">\r\n\t\t<div class=\"lockscreen-logo\">Connection Lost</div>\r\n\r\n\t\t<div class=\"text-center\" style=\"margin-bottom: 24px;\">\r\n\t\t\tConnection to the server has been lost. Attempting to reconnect.\r\n\t\t</div>\r\n\t\t<p class=\"text-center\" style=\"font-size: 36px; margin-bottom: 24px;\">\r\n\t\t\t<i class=\"fa fa-refresh fa-spin\"></i>\r\n\t\t</p>\r\n\t\t<p class=\"text-center\"><a data-toggle=\"modal\" data-target=\"#manualLights\">Need to manually activate the lights?</a></p>\r\n\t</div>\r\n\t\r\n\t\r\n\t<div class=\"modal fade\" id=\"manualLights\" tabindex=\"-1\" role=\"dialog\" >\r\n\t\t<div class=\"modal-dialog\" role=\"document\">\r\n\t\t\t<div class=\"modal-content\">\r\n\t\t\t\t<div class=\"modal-header\">\r\n\t\t\t\t\t<button type=\"button\" class=\"close\" data-dismiss=\"modal\" aria-label=\"Close\"><span aria-hidden=\"true\">&times;</span></button>\r\n\t\t\t\t\t<h4 class=\"modal-title\">Manual Light Control</h4>\r\n\t\t\t\t</div>\r\n\t\t\t\t<div class=\"modal-body\">\r\n\t\t\t\t\t<p>A manual light control switch is located in the A/V booth. Go into the A/V booth and look for the following switch (usually on the counter between the two sets of computer monitors)</p>\r\n\t\t\t\t\t<img src=\"/static/manual-light-panel.png\" align=\"left\" height=\"200\" style=\"margin-right: 24px;\" />\r\n\t\t\t\t\t<ul>\r\n\t\t\t\t\t\t<li>Press the <b>white</b> button (<b>#7</b>) to turn all house lights on.</l i>\r\n\t\t\t\t\t\t<li>Press the <b>black</b> button (<b>#8</b>) to turn all house lights off.</li>\r\n\t\t\t\t\t\t<li>Press the <b>gray</b> buttons (<b>#1</b> & <b>#2</b>, <b>#3</b> & <b>#4</b>, etc.) to dim individual sections of lights.</li>\r\n\t\t\t\t\t\t<li>The other colored buttons activate a variety of preset light levels</li>\r\n\t\t\t\t\t</ul>\r\n\t\t\t\t\t<p>There is a separate light switch on the right side of the stage in front of the drum cage to turn on overhead stage lights.</p>\r\n\t\t\t\t</div>\r\n\t\t\t\t<div class=\"modal-footer\">\r\n\t\t\t\t\t<button type=\"button\" class=\"btn btn-default\" data-dismiss=\"modal\">Close</button>\r\n\t\t\t\t</div>\r\n\t\t\t</div>\r\n\t\t</div>\r\n\t</div>\r\n\r\n\t<div class=\"modal fade\" id=\"connectionTroubleshooter\" tabindex=\"-1\" role=\"dialog\">\r\n\t\t<div class=\"modal-dialog\" role=\"document\">\r\n\t\t\t<div class=\"modal-content\">\r\n\t\t\t\t<div class=\"modal-header\">\r\n\t\t\t\t\t<button type=\"button\" class=\"close\" data-dismiss=\"modal\" aria-label=\"Close\"><span aria-hidden=\"true\">&times;</span></button>\r\n\t\t\t\t\t<h4 class=\"modal-title\">Troubleshoot Connection Issues</h4>\r\n\t\t\t\t</div>\r\n\t\t\t\t<div class=\"modal-body\">\r\n\t\t\t\t\t<p>A <i class=\"fa fa-times-circle\" style=\"color: red;\"></i> next to \"Server\" in the top right corner means the control server for the wall panels is unreachable. Ensure the wall panel is connected to wifi and the lighting PC is turned on in the A/V booth.</p>\r\n\t\t\t\t\t<p>A <i class=\"fa fa-times-circle\" style=\"color: red;\"></i> next to \"MxManager\" in the top right corner means the control server can not talk to the lighting software. Check the lighting computer in the A/V booth and make sure the M-PC and M-Series Manager applications are both running.</p>\r\n\t\t\t\t\t<p>A <i class=\"fa fa-times-circle\" style=\"color: red;\"></i> next to \"MPC\" in the top right corner means the lighting software is not running or unresponsive. Check the lighting computer in the A/V booth and make sure M-PC is running.</p>\r\n\t\t\t\t</div>\r\n\t\t\t\t<div class=\"modal-footer\">\r\n\t\t\t\t\t<button type=\"button\" class=\"btn btn-default\" data-dismiss=\"modal\">Close</button>\r\n\t\t\t\t</div>\r\n\t\t\t</div>\r\n\t\t</div>\r\n\t</div>\r\n</div>\r\n";
+
+/***/ }),
+/* 7 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	var __vue_script__, __vue_template__
-	__webpack_require__(7)
-	__webpack_require__(20)
-	__vue_script__ = __webpack_require__(19)
-	__vue_template__ = __webpack_require__(11)
+	__webpack_require__(8)
+	__webpack_require__(12)
+	__vue_script__ = __webpack_require__(14)
+	__vue_template__ = __webpack_require__(15)
 	module.exports = __vue_script__ || {}
 	if (module.exports.__esModule) module.exports = module.exports.default
 	if (__vue_template__) { (typeof module.exports === "function" ? module.exports.options : module.exports).template = __vue_template__ }
@@ -12608,7 +12717,7 @@
 	  var hotAPI = require("vue-hot-reload-api")
 	  hotAPI.install(require("vue"), true)
 	  if (!hotAPI.compatible) return
-	  var id = "d:\\nodejs\\mpc-control\\src\\pgLocked.vue"
+	  var id = "D:\\nodejs\\mpc-control\\src\\pgLocked.vue"
 	  if (!module.hot.data) {
 	    hotAPI.createRecord(id, module.exports)
 	  } else {
@@ -12617,23 +12726,23 @@
 	})()}
 
 /***/ }),
-/* 7 */
+/* 8 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	// style-loader: Adds some css to the DOM by adding a <style> tag
 
 	// load the styles
-	var content = __webpack_require__(8);
+	var content = __webpack_require__(9);
 	if(typeof content === 'string') content = [[module.id, content, '']];
 	// add the styles to the DOM
-	var update = __webpack_require__(10)(content, {});
+	var update = __webpack_require__(11)(content, {});
 	if(content.locals) module.exports = content.locals;
 	// Hot Module Replacement
 	if(false) {
 		// When the styles change, update the <style> tags
 		if(!content.locals) {
-			module.hot.accept("!!../node_modules/css-loader/index.js!../node_modules/vue-loader/lib/style-rewriter.js?id=_v-f19f0404&file=pgLocked.vue!../node_modules/vue-loader/lib/selector.js?type=style&index=0!./pgLocked.vue", function() {
-				var newContent = require("!!../node_modules/css-loader/index.js!../node_modules/vue-loader/lib/style-rewriter.js?id=_v-f19f0404&file=pgLocked.vue!../node_modules/vue-loader/lib/selector.js?type=style&index=0!./pgLocked.vue");
+			module.hot.accept("!!../node_modules/css-loader/index.js!../node_modules/vue-loader/lib/style-rewriter.js?id=_v-5cdcea1e&file=pgLocked.vue!../node_modules/vue-loader/lib/selector.js?type=style&index=0!./pgLocked.vue", function() {
+				var newContent = require("!!../node_modules/css-loader/index.js!../node_modules/vue-loader/lib/style-rewriter.js?id=_v-5cdcea1e&file=pgLocked.vue!../node_modules/vue-loader/lib/selector.js?type=style&index=0!./pgLocked.vue");
 				if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
 				update(newContent);
 			});
@@ -12643,10 +12752,10 @@
 	}
 
 /***/ }),
-/* 8 */
+/* 9 */
 /***/ (function(module, exports, __webpack_require__) {
 
-	exports = module.exports = __webpack_require__(9)();
+	exports = module.exports = __webpack_require__(10)();
 	// imports
 
 
@@ -12657,7 +12766,7 @@
 
 
 /***/ }),
-/* 9 */
+/* 10 */
 /***/ (function(module, exports) {
 
 	/*
@@ -12713,7 +12822,7 @@
 
 
 /***/ }),
-/* 10 */
+/* 11 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	/*
@@ -12965,279 +13074,47 @@
 
 
 /***/ }),
-/* 11 */
-/***/ (function(module, exports) {
-
-	module.exports = "\r\n<div class=\"lockscreen-wrapper\">\r\n\t<div class=\"lockscreen-logo\">Auditorium Lighting</div>\r\n\r\n  \t<div class=\"text-center\" style=\"margin-bottom: 24px;\">\r\n\t\tWall controls are locked out by the lighting console. Please enter the password to unlock.\r\n\t</div>\r\n\r\n\t<div class=\"lockscreen-item\">\r\n\t\t<form @submit.prevent=\"submitUnlockCode()\" class=\"lockscreen-credentials\">\r\n\t\t\t<div class=\"input-group\">\r\n\t\t\t\t<input type=\"password\" v-model=\"unlock_code\" class=\"form-control\" placeholder=\"password\">\r\n\r\n\t\t\t\t<div class=\"input-group-btn\">\r\n\t\t\t\t\t<button type=\"button\" class=\"btn\" @click=\"submitUnlockCode()\"><i class=\"fa fa-arrow-right text-muted\"></i></button>\r\n\t\t\t\t</div>\r\n\t\t\t</div>\r\n\t\t</form>\r\n\t</div>\r\n\r\n\t<transition name=\"fade\">\r\n\t\t<div class=\"callout callout-danger\" style=\"margin-bottom: 24px; text-align: center;\" v-if=\"error\">\r\n\t\t\t{{error}}\r\n\t\t</div>\r\n\t</transition>\r\n</div>\r\n";
-
-/***/ }),
 /* 12 */
 /***/ (function(module, exports, __webpack_require__) {
 
-	var __vue_script__, __vue_template__
-	__vue_script__ = __webpack_require__(13)
-	__vue_template__ = __webpack_require__(14)
-	module.exports = __vue_script__ || {}
-	if (module.exports.__esModule) module.exports = module.exports.default
-	if (__vue_template__) { (typeof module.exports === "function" ? module.exports.options : module.exports).template = __vue_template__ }
-	if (false) {(function () {  module.hot.accept()
-	  var hotAPI = require("vue-hot-reload-api")
-	  hotAPI.install(require("vue"), true)
-	  if (!hotAPI.compatible) return
-	  var id = "d:\\nodejs\\mpc-control\\src\\cueButton.vue"
-	  if (!module.hot.data) {
-	    hotAPI.createRecord(id, module.exports)
-	  } else {
-	    hotAPI.update(id, module.exports, __vue_template__)
-	  }
-	})()}
+	// style-loader: Adds some css to the DOM by adding a <style> tag
+
+	// load the styles
+	var content = __webpack_require__(13);
+	if(typeof content === 'string') content = [[module.id, content, '']];
+	// add the styles to the DOM
+	var update = __webpack_require__(11)(content, {});
+	if(content.locals) module.exports = content.locals;
+	// Hot Module Replacement
+	if(false) {
+		// When the styles change, update the <style> tags
+		if(!content.locals) {
+			module.hot.accept("!!../node_modules/css-loader/index.js!../node_modules/vue-loader/lib/style-rewriter.js?id=_v-5cdcea1e&file=pgLocked.vue!../node_modules/vue-loader/lib/selector.js?type=style&index=1!./pgLocked.vue", function() {
+				var newContent = require("!!../node_modules/css-loader/index.js!../node_modules/vue-loader/lib/style-rewriter.js?id=_v-5cdcea1e&file=pgLocked.vue!../node_modules/vue-loader/lib/selector.js?type=style&index=1!./pgLocked.vue");
+				if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+				update(newContent);
+			});
+		}
+		// When the module is disposed, remove the <style> tags
+		module.hot.dispose(function() { update(); });
+	}
 
 /***/ }),
 /* 13 */
-/***/ (function(module, exports) {
+/***/ (function(module, exports, __webpack_require__) {
 
-	'use strict';
+	exports = module.exports = __webpack_require__(10)();
+	// imports
 
-	// <template>
-	// 	<div class="info-box" :data-cue="cue" @click="toggleCue()">
-	// 		<span class="info-box-icon" :class="color"><i class="fa" :class="icon"></i></span>
-	//
-	// 		<div class="info-box-content">
-	// 			<span class="info-box-text">{{type}}</span>
-	// 			<span class="info-box-number">{{name}}</span>
-	// 			<span class="label bg-yellow" v-if="fading"><i class="fa fa-spinner fa-spin"></i> FADING</span>
-	// 			<span class="label bg-green" v-if="isActive()">ACTIVE</span>
-	// 		</div>
-	//     </div>
-	// </template>
-	//
-	// <script>
-	module.exports = {
-		props: {
-			'cue': {
-				type: Number,
-				required: true
-			},
-			'color': {
-				default: "bg-blue"
-			},
-			'icon': {
-				default: "fa-lightbulb-o"
-			},
-			'name': {
-				required: true
-			},
-			'type': {
-				default: "Presets"
-			}
-		},
-		data: function data() {
-			return {
-				'fading': false
-			};
-		},
-		methods: {
-			toggleCue: function toggleCue() {
-				if (this.isActive()) {
-					this.$root.sendCommand('cuelistRelease ' + this.$props.cue);
-				} else {
-					this.$root.sendCommand('cuelistGo ' + this.$props.cue);
-				}
-				this.$data.fading = true;
-				var data = this.$data;
-				setTimeout(function () {
-					data.fading = false;
-				}, 4000);
-			},
-			isActive: function isActive() {
-				var active = false;
-				var props = this.$props;
-				var data = this.$data;
-				this.$root.activeCuelists.forEach(function (each) {
-					if (each.id == props.cue) {
-						active = true;data.fading = false;
-					}
-				});
-				return active;
-			}
-		}
-		// </script>
 
-	};
+	// module
+	exports.push([module.id, "\r\n.fade-enter-active, .fade-leave-active {\r\n\ttransition: opacity .5s\r\n}\r\n.fade-enter, .fade-leave-to {\r\n\topacity: 0\r\n}\r\n", ""]);
+
+	// exports
+
 
 /***/ }),
 /* 14 */
-/***/ (function(module, exports) {
-
-	module.exports = "\r\n\t<div class=\"info-box\" :data-cue=\"cue\" @click=\"toggleCue()\">\r\n\t\t<span class=\"info-box-icon\" :class=\"color\"><i class=\"fa\" :class=\"icon\"></i></span>\r\n\r\n\t\t<div class=\"info-box-content\">\r\n\t\t\t<span class=\"info-box-text\">{{type}}</span>\r\n\t\t\t<span class=\"info-box-number\">{{name}}</span>\r\n\t\t\t<span class=\"label bg-yellow\" v-if=\"fading\"><i class=\"fa fa-spinner fa-spin\"></i> FADING</span>\r\n\t\t\t<span class=\"label bg-green\" v-if=\"isActive()\">ACTIVE</span>\r\n\t\t</div>\r\n    </div>\r\n";
-
-/***/ }),
-/* 15 */
-/***/ (function(module, exports) {
-
-	"use strict";
-
-	// <template>
-	// 	<div class="pg">
-	// 	<ul class="stats">
-	// 		<li>
-	// 			<i v-if="connectedWebsocket" class="fa fa-check-circle" style="color: green;"></i>
-	// 			<i v-if="!connectedWebsocket" class="fa fa-times-circle" style="color: red;"></i>
-	// 			Server: {{config.websocket_server}}
-	// 		</li>
-	// 		<li>
-	// 			<i v-if="connectedTelnet && connectedWebsocket" class="fa fa-check-circle" style="color: green;"></i>
-	// 			<i v-if="!connectedTelnet && connectedWebsocket" class="fa fa-times-circle" style="color: red;"></i>
-	// 			<i v-if="!connectedWebsocket" class="fa fa-question-circle" style="color: #f39c12;"></i>
-	// 			MxManager
-	// 		</li>
-	// 		<li>
-	// 			<i v-if="connectedMPC && connectedTelnet && connectedWebsocket" class="fa fa-check-circle" style="color: green;"></i>
-	// 			<i v-if="!connectedMPC && connectedTelnet" class="fa fa-times-circle" style="color: red;"></i>
-	// 			<i v-if="!connectedTelnet || !connectedWebsocket" class="fa fa-question-circle" style="color: #f39c12;"></i>
-	// 			MPC
-	// 		</li>
-	// 		<li><a data-toggle="modal" data-target="#connectionTroubleshooter">Troubleshoot Connection Issues</a></li>
-	// 	</ul>
-	// 	<div class="lockscreen-wrapper">
-	// 		<div class="lockscreen-logo">Connection Lost</div>
-	//
-	// 		<div class="text-center" style="margin-bottom: 24px;">
-	// 			Connection to the server has been lost. Attempting to reconnect.
-	// 		</div>
-	// 		<p class="text-center" style="font-size: 36px; margin-bottom: 24px;">
-	// 			<i class="fa fa-refresh fa-spin"></i>
-	// 		</p>
-	// 		<p class="text-center"><a data-toggle="modal" data-target="#manualLights">Need to manually activate the lights?</a></p>
-	// 	</div>
-	//
-	//
-	// 	<div class="modal fade" id="manualLights" tabindex="-1" role="dialog" >
-	// 		<div class="modal-dialog" role="document">
-	// 			<div class="modal-content">
-	// 				<div class="modal-header">
-	// 					<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-	// 					<h4 class="modal-title">Manual Light Control</h4>
-	// 				</div>
-	// 				<div class="modal-body">
-	// 					<p>A manual light control switch is located in the A/V booth. Go into the A/V booth and look for the following switch (usually on the counter between the two sets of computer monitors)</p>
-	// 					<img src="/static/manual-light-panel.png" align="left" height="200" style="margin-right: 24px;" />
-	// 					<ul>
-	// 						<li>Press the <b>white</b> button (<b>#7</b>) to turn all house lights on.</l i>
-	// 						<li>Press the <b>black</b> button (<b>#8</b>) to turn all house lights off.</li>
-	// 						<li>Press the <b>gray</b> buttons (<b>#1</b> & <b>#2</b>, <b>#3</b> & <b>#4</b>, etc.) to dim individual sections of lights.</li>
-	// 						<li>The other colored buttons activate a variety of preset light levels</li>
-	// 					</ul>
-	// 					<p>There is a separate light switch on the right side of the stage in front of the drum cage to turn on overhead stage lights.</p>
-	// 				</div>
-	// 				<div class="modal-footer">
-	// 					<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-	// 				</div>
-	// 			</div>
-	// 		</div>
-	// 	</div>
-	//
-	// 	<div class="modal fade" id="connectionTroubleshooter" tabindex="-1" role="dialog">
-	// 		<div class="modal-dialog" role="document">
-	// 			<div class="modal-content">
-	// 				<div class="modal-header">
-	// 					<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-	// 					<h4 class="modal-title">Troubleshoot Connection Issues</h4>
-	// 				</div>
-	// 				<div class="modal-body">
-	// 					<p>A <i class="fa fa-times-circle" style="color: red;"></i> next to "Server" in the top right corner means the control server for the wall panels is unreachable. Ensure the wall panel is connected to wifi and the lighting PC is turned on in the A/V booth.</p>
-	// 					<p>A <i class="fa fa-times-circle" style="color: red;"></i> next to "MxManager" in the top right corner means the control server can not talk to the lighting software. Check the lighting computer in the A/V booth and make sure the M-PC and M-Series Manager applications are both running.</p>
-	// 					<p>A <i class="fa fa-times-circle" style="color: red;"></i> next to "MPC" in the top right corner means the lighting software is not running or unresponsive. Check the lighting computer in the A/V booth and make sure M-PC is running.</p>
-	// 				</div>
-	// 				<div class="modal-footer">
-	// 					<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-	// 				</div>
-	// 			</div>
-	// 		</div>
-	// 	</div>
-	// </div>
-	// </template>
-	//
-	// <script>
-	module.exports = {
-		computed: {
-			connectedWebsocket: function connectedWebsocket() {
-				return this.$parent.$data.connectedWebsocket;
-			},
-			connectedTelnet: function connectedTelnet() {
-				return this.$parent.$data.connectedTelnet;
-			},
-			connectedMPC: function connectedMPC() {
-				return this.$parent.$data.connectedMPC;
-			},
-			config: function config() {
-				return window.config;
-			}
-		}
-		// </script>
-
-	};
-
-/***/ }),
-/* 16 */
-/***/ (function(module, exports, __webpack_require__) {
-
-	var __vue_script__, __vue_template__
-	__vue_script__ = __webpack_require__(17)
-	__vue_template__ = __webpack_require__(18)
-	module.exports = __vue_script__ || {}
-	if (module.exports.__esModule) module.exports = module.exports.default
-	if (__vue_template__) { (typeof module.exports === "function" ? module.exports.options : module.exports).template = __vue_template__ }
-	if (false) {(function () {  module.hot.accept()
-	  var hotAPI = require("vue-hot-reload-api")
-	  hotAPI.install(require("vue"), true)
-	  if (!hotAPI.compatible) return
-	  var id = "d:\\nodejs\\mpc-control\\src\\pgControls.vue"
-	  if (!module.hot.data) {
-	    hotAPI.createRecord(id, module.exports)
-	  } else {
-	    hotAPI.update(id, module.exports, __vue_template__)
-	  }
-	})()}
-
-/***/ }),
-/* 17 */
-/***/ (function(module, exports) {
-
-	// <template>
-	// 	<div class="row">
-	// 		<div class="col-md-4">
-	// 			<cue-button :cue="201" name="House Full" type="House Lights" color="bg-yellow"></cue-button>
-	// 			<cue-button :cue="202" name="House Half" type="House Lights" color="bg-yellow"></cue-button>
-	// 			<cue-button :cue="203" name="House Low" type="House Lights" color="bg-yellow"></cue-button>
-	// 			<cue-button :cue="200" name="House Off" type="House Lights" color="bg-red" icon="fa-power-off"></cue-button>
-	// 		</div>
-	// 		<div class="col-md-4">
-	// 			<cue-button :cue="1" name="Front Lights" type="Stage Lighting" icon="fa-sun-o"></cue-button>
-	// 			<cue-button :cue="31" name="Backdrop Colors" type="Stage Lighting" icon="fa-sun-o"></cue-button>
-	// 			<cue-button :cue="27" name="Backdrop White" type="Stage Lighting" icon="fa-sun-o"></cue-button>
-	// 		</div>
-	// 		<div class="col-md-4">
-	// 			<cue-button :cue="12" name="Pre/Post Service" type="Presets" color="bg-green" icon="fa-star"></cue-button>
-	// 			<cue-button :cue="13" name="Worship" type="Presets" color="bg-green" icon="fa-star"></cue-button>
-	// 			<cue-button :cue="14" name="Sermon" type="Presets" color="bg-green" icon="fa-star"></cue-button>
-	// 			<cue-button :cue="11" name="All Off" type="Presets" color="bg-red" icon="fa-power-off"></cue-button>
-	// 		</div>
-	// 	</div>
-	// </template>
-	//
-	// <script>
-	// </script>
-	"use strict";
-
-/***/ }),
-/* 18 */
-/***/ (function(module, exports) {
-
-	module.exports = "\r\n\t<div class=\"row\">\r\n\t\t<div class=\"col-md-4\">\r\n\t\t\t<cue-button :cue=\"201\" name=\"House Full\" type=\"House Lights\" color=\"bg-yellow\"></cue-button>\r\n\t\t\t<cue-button :cue=\"202\" name=\"House Half\" type=\"House Lights\" color=\"bg-yellow\"></cue-button>\r\n\t\t\t<cue-button :cue=\"203\" name=\"House Low\" type=\"House Lights\" color=\"bg-yellow\"></cue-button>\r\n\t\t\t<cue-button :cue=\"200\" name=\"House Off\" type=\"House Lights\" color=\"bg-red\" icon=\"fa-power-off\"></cue-button>\r\n\t\t</div>\r\n\t\t<div class=\"col-md-4\">\r\n\t\t\t<cue-button :cue=\"1\" name=\"Front Lights\" type=\"Stage Lighting\" icon=\"fa-sun-o\"></cue-button>\r\n\t\t\t<cue-button :cue=\"31\" name=\"Backdrop Colors\" type=\"Stage Lighting\" icon=\"fa-sun-o\"></cue-button>\r\n\t\t\t<cue-button :cue=\"27\" name=\"Backdrop White\" type=\"Stage Lighting\" icon=\"fa-sun-o\"></cue-button>\r\n\t\t</div>\r\n\t\t<div class=\"col-md-4\">\r\n\t\t\t<cue-button :cue=\"12\" name=\"Pre/Post Service\" type=\"Presets\" color=\"bg-green\" icon=\"fa-star\"></cue-button>\r\n\t\t\t<cue-button :cue=\"13\" name=\"Worship\" type=\"Presets\" color=\"bg-green\" icon=\"fa-star\"></cue-button>\r\n\t\t\t<cue-button :cue=\"14\" name=\"Sermon\" type=\"Presets\" color=\"bg-green\" icon=\"fa-star\"></cue-button>\r\n\t\t\t<cue-button :cue=\"11\" name=\"All Off\" type=\"Presets\" color=\"bg-red\" icon=\"fa-power-off\"></cue-button>\r\n\t\t</div>\r\n\t</div>\r\n";
-
-/***/ }),
-/* 19 */
 /***/ (function(module, exports) {
 
 	'use strict';
@@ -13322,44 +13199,194 @@
 	};
 
 /***/ }),
-/* 20 */
+/* 15 */
+/***/ (function(module, exports) {
+
+	module.exports = "\r\n<div class=\"lockscreen-wrapper\">\r\n\t<div class=\"lockscreen-logo\">Auditorium Lighting</div>\r\n\r\n  \t<div class=\"text-center\" style=\"margin-bottom: 24px;\">\r\n\t\tWall controls are locked out by the lighting console. Please enter the password to unlock.\r\n\t</div>\r\n\r\n\t<div class=\"lockscreen-item\">\r\n\t\t<form @submit.prevent=\"submitUnlockCode()\" class=\"lockscreen-credentials\">\r\n\t\t\t<div class=\"input-group\">\r\n\t\t\t\t<input type=\"password\" v-model=\"unlock_code\" class=\"form-control\" placeholder=\"password\">\r\n\r\n\t\t\t\t<div class=\"input-group-btn\">\r\n\t\t\t\t\t<button type=\"button\" class=\"btn\" @click=\"submitUnlockCode()\"><i class=\"fa fa-arrow-right text-muted\"></i></button>\r\n\t\t\t\t</div>\r\n\t\t\t</div>\r\n\t\t</form>\r\n\t</div>\r\n\r\n\t<transition name=\"fade\">\r\n\t\t<div class=\"callout callout-danger\" style=\"margin-bottom: 24px; text-align: center;\" v-if=\"error\">\r\n\t\t\t{{error}}\r\n\t\t</div>\r\n\t</transition>\r\n</div>\r\n";
+
+/***/ }),
+/* 16 */
 /***/ (function(module, exports, __webpack_require__) {
 
-	// style-loader: Adds some css to the DOM by adding a <style> tag
+	var __vue_script__, __vue_template__
+	__vue_script__ = __webpack_require__(17)
+	__vue_template__ = __webpack_require__(18)
+	module.exports = __vue_script__ || {}
+	if (module.exports.__esModule) module.exports = module.exports.default
+	if (__vue_template__) { (typeof module.exports === "function" ? module.exports.options : module.exports).template = __vue_template__ }
+	if (false) {(function () {  module.hot.accept()
+	  var hotAPI = require("vue-hot-reload-api")
+	  hotAPI.install(require("vue"), true)
+	  if (!hotAPI.compatible) return
+	  var id = "D:\\nodejs\\mpc-control\\src\\pgControls.vue"
+	  if (!module.hot.data) {
+	    hotAPI.createRecord(id, module.exports)
+	  } else {
+	    hotAPI.update(id, module.exports, __vue_template__)
+	  }
+	})()}
 
-	// load the styles
-	var content = __webpack_require__(21);
-	if(typeof content === 'string') content = [[module.id, content, '']];
-	// add the styles to the DOM
-	var update = __webpack_require__(10)(content, {});
-	if(content.locals) module.exports = content.locals;
-	// Hot Module Replacement
-	if(false) {
-		// When the styles change, update the <style> tags
-		if(!content.locals) {
-			module.hot.accept("!!../node_modules/css-loader/index.js!../node_modules/vue-loader/lib/style-rewriter.js?id=_v-f19f0404&file=pgLocked.vue!../node_modules/vue-loader/lib/selector.js?type=style&index=1!./pgLocked.vue", function() {
-				var newContent = require("!!../node_modules/css-loader/index.js!../node_modules/vue-loader/lib/style-rewriter.js?id=_v-f19f0404&file=pgLocked.vue!../node_modules/vue-loader/lib/selector.js?type=style&index=1!./pgLocked.vue");
-				if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
-				update(newContent);
-			});
+/***/ }),
+/* 17 */
+/***/ (function(module, exports) {
+
+	"use strict";
+
+	// <template>
+	// <div v-if="cuelistsLoaded">
+	// 	<div class="row">
+	// 		<div class="col-md-4">
+	// 			<cue-button :cue="201" name="House Full" type="House Lights" color="bg-yellow"></cue-button>
+	// 			<cue-button :cue="202" name="House Half" type="House Lights" color="bg-yellow"></cue-button>
+	// 			<cue-button :cue="203" name="House Low" type="House Lights" color="bg-yellow"></cue-button>
+	// 			<cue-button :cue="200" name="House Off" type="House Lights" color="bg-red" icon="fa-power-off"></cue-button>
+	// 		</div>
+	// 		<div class="col-md-4">
+	// 			<cue-button :cue="1" name="Front Lights" type="Stage Lighting" icon="fa-sun-o"></cue-button>
+	// 			<cue-button :cue="31" name="Backdrop Colors" type="Stage Lighting" icon="fa-sun-o"></cue-button>
+	// 			<cue-button :cue="27" name="Backdrop White" type="Stage Lighting" icon="fa-sun-o"></cue-button>
+	// 		</div>
+	// 		<div class="col-md-4">
+	// 			<cue-button :cue="12" name="Pre/Post Service" type="Presets" color="bg-green" icon="fa-star"></cue-button>
+	// 			<cue-button :cue="13" name="Worship" type="Presets" color="bg-green" icon="fa-star"></cue-button>
+	// 			<cue-button :cue="14" name="Sermon" type="Presets" color="bg-green" icon="fa-star"></cue-button>
+	// 			<cue-button :cue="11" name="All Off" type="Presets" color="bg-red" icon="fa-power-off"></cue-button>
+	// 		</div>
+	// 	</div>
+	// </div>
+	// <div v-else>
+	// 	<div class="lockscreen-wrapper">
+	// 		<div class="lockscreen-logo">Auditorium Lighting</div>
+	//
+	// 		<div class="text-center" style="margin-bottom: 24px;">
+	// 			Loading scenes...
+	// 		</div>
+	// 		<p class="text-center" style="font-size: 36px; margin-bottom: 24px;">
+	// 			<i class="fa fa-refresh fa-spin"></i>
+	// 		</p>
+	// 	</div>
+	//
+	// </div>
+	// </div>
+	// </template>
+	//
+	// <script>
+	module.exports = {
+		computed: {
+			cuelistsLoaded: function cuelistsLoaded() {
+				return this.$parent.$data.cuelistsLoaded;
+			}
 		}
-		// When the module is disposed, remove the <style> tags
-		module.hot.dispose(function() { update(); });
-	}
+		// </script>
+
+	};
+
+/***/ }),
+/* 18 */
+/***/ (function(module, exports) {
+
+	module.exports = "\r\n<div v-if=\"cuelistsLoaded\">\r\n\t<div class=\"row\">\r\n\t\t<div class=\"col-md-4\">\r\n\t\t\t<cue-button :cue=\"201\" name=\"House Full\" type=\"House Lights\" color=\"bg-yellow\"></cue-button>\r\n\t\t\t<cue-button :cue=\"202\" name=\"House Half\" type=\"House Lights\" color=\"bg-yellow\"></cue-button>\r\n\t\t\t<cue-button :cue=\"203\" name=\"House Low\" type=\"House Lights\" color=\"bg-yellow\"></cue-button>\r\n\t\t\t<cue-button :cue=\"200\" name=\"House Off\" type=\"House Lights\" color=\"bg-red\" icon=\"fa-power-off\"></cue-button>\r\n\t\t</div>\r\n\t\t<div class=\"col-md-4\">\r\n\t\t\t<cue-button :cue=\"1\" name=\"Front Lights\" type=\"Stage Lighting\" icon=\"fa-sun-o\"></cue-button>\r\n\t\t\t<cue-button :cue=\"31\" name=\"Backdrop Colors\" type=\"Stage Lighting\" icon=\"fa-sun-o\"></cue-button>\r\n\t\t\t<cue-button :cue=\"27\" name=\"Backdrop White\" type=\"Stage Lighting\" icon=\"fa-sun-o\"></cue-button>\r\n\t\t</div>\r\n\t\t<div class=\"col-md-4\">\r\n\t\t\t<cue-button :cue=\"12\" name=\"Pre/Post Service\" type=\"Presets\" color=\"bg-green\" icon=\"fa-star\"></cue-button>\r\n\t\t\t<cue-button :cue=\"13\" name=\"Worship\" type=\"Presets\" color=\"bg-green\" icon=\"fa-star\"></cue-button>\r\n\t\t\t<cue-button :cue=\"14\" name=\"Sermon\" type=\"Presets\" color=\"bg-green\" icon=\"fa-star\"></cue-button>\r\n\t\t\t<cue-button :cue=\"11\" name=\"All Off\" type=\"Presets\" color=\"bg-red\" icon=\"fa-power-off\"></cue-button>\r\n\t\t</div>\r\n\t</div>\r\n</div>\r\n<div v-else>\r\n\t<div class=\"lockscreen-wrapper\">\r\n\t\t<div class=\"lockscreen-logo\">Auditorium Lighting</div>\r\n\r\n\t\t<div class=\"text-center\" style=\"margin-bottom: 24px;\">\r\n\t\t\tLoading scenes...\r\n\t\t</div>\r\n\t\t<p class=\"text-center\" style=\"font-size: 36px; margin-bottom: 24px;\">\r\n\t\t\t<i class=\"fa fa-refresh fa-spin\"></i>\r\n\t\t</p>\r\n\t</div>\r\n\r\n</div>\r\n</div>\r\n";
+
+/***/ }),
+/* 19 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	var __vue_script__, __vue_template__
+	__vue_script__ = __webpack_require__(20)
+	__vue_template__ = __webpack_require__(21)
+	module.exports = __vue_script__ || {}
+	if (module.exports.__esModule) module.exports = module.exports.default
+	if (__vue_template__) { (typeof module.exports === "function" ? module.exports.options : module.exports).template = __vue_template__ }
+	if (false) {(function () {  module.hot.accept()
+	  var hotAPI = require("vue-hot-reload-api")
+	  hotAPI.install(require("vue"), true)
+	  if (!hotAPI.compatible) return
+	  var id = "D:\\nodejs\\mpc-control\\src\\cueButton.vue"
+	  if (!module.hot.data) {
+	    hotAPI.createRecord(id, module.exports)
+	  } else {
+	    hotAPI.update(id, module.exports, __vue_template__)
+	  }
+	})()}
+
+/***/ }),
+/* 20 */
+/***/ (function(module, exports) {
+
+	'use strict';
+
+	// <template>
+	// 	<div class="info-box" :data-cue="cue" @click="toggleCue()">
+	// 		<span class="info-box-icon" :class="color"><i class="fa" :class="icon"></i></span>
+	//
+	// 		<div class="info-box-content">
+	// 			<span class="info-box-text">{{type}}</span>
+	// 			<span class="info-box-number">{{name}}</span>
+	// 			<span class="label bg-yellow" v-if="fading"><i class="fa fa-spinner fa-spin"></i> FADING</span>
+	// 			<span class="label bg-green" v-if="isActive()">ACTIVE</span>
+	// 		</div>
+	//     </div>
+	// </template>
+	//
+	// <script>
+	module.exports = {
+		props: {
+			'cue': {
+				type: Number,
+				required: true
+			},
+			'color': {
+				default: "bg-blue"
+			},
+			'icon': {
+				default: "fa-lightbulb-o"
+			},
+			'name': {
+				required: true
+			},
+			'type': {
+				default: "Presets"
+			}
+		},
+		data: function data() {
+			return {
+				'fading': false
+			};
+		},
+		methods: {
+			toggleCue: function toggleCue() {
+				if (this.isActive()) {
+					this.$root.sendCommand('cuelistRelease ' + this.$props.cue);
+				} else {
+					this.$root.sendCommand('cuelistGo ' + this.$props.cue);
+				}
+				this.$data.fading = true;
+				var data = this.$data;
+				setTimeout(function () {
+					data.fading = false;
+				}, 4000);
+			},
+			isActive: function isActive() {
+				var active = false;
+				var props = this.$props;
+				var data = this.$data;
+				this.$root.activeCuelists.forEach(function (each) {
+					if (each.id == props.cue) {
+						active = true;data.fading = false;
+					}
+				});
+				return active;
+			}
+		}
+		// </script>
+
+	};
 
 /***/ }),
 /* 21 */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ (function(module, exports) {
 
-	exports = module.exports = __webpack_require__(9)();
-	// imports
-
-
-	// module
-	exports.push([module.id, "\r\n.fade-enter-active, .fade-leave-active {\r\n\ttransition: opacity .5s\r\n}\r\n.fade-enter, .fade-leave-to {\r\n\topacity: 0\r\n}\r\n", ""]);
-
-	// exports
-
+	module.exports = "\r\n\t<div class=\"info-box\" :data-cue=\"cue\" @click=\"toggleCue()\">\r\n\t\t<span class=\"info-box-icon\" :class=\"color\"><i class=\"fa\" :class=\"icon\"></i></span>\r\n\r\n\t\t<div class=\"info-box-content\">\r\n\t\t\t<span class=\"info-box-text\">{{type}}</span>\r\n\t\t\t<span class=\"info-box-number\">{{name}}</span>\r\n\t\t\t<span class=\"label bg-yellow\" v-if=\"fading\"><i class=\"fa fa-spinner fa-spin\"></i> FADING</span>\r\n\t\t\t<span class=\"label bg-green\" v-if=\"isActive()\">ACTIVE</span>\r\n\t\t</div>\r\n    </div>\r\n";
 
 /***/ })
 /******/ ]);
