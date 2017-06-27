@@ -1,5 +1,5 @@
 <template>
-<div v-if="cuelistsLoaded">
+<div v-if="!lockedOut">
 	<div class="row">
 		<div class="col-md-4">
 			<cue-button :cue="201" name="House Full" type="House Lights" color="bg-yellow"></cue-button>
@@ -41,6 +41,9 @@ module.exports = {
 	computed: {
 		cuelistsLoaded: function() {
 			return this.$parent.$data.cuelistsLoaded;
+		},
+		lockedOut: function() {
+			return this.$parent.$data.lockedOut;
 		}
 	}
 }
