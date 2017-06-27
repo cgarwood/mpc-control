@@ -13233,7 +13233,7 @@
 	"use strict";
 
 	// <template>
-	// <div v-if="!lockedOut">
+	// <div v-if="(!lockedOut || manuallyUnlocked)">
 	// 	<div class="row">
 	// 		<div class="col-md-4">
 	// 			<cue-button :cue="201" name="House Full" type="House Lights" color="bg-yellow"></cue-button>
@@ -13278,6 +13278,9 @@
 			},
 			lockedOut: function lockedOut() {
 				return this.$parent.$data.lockedOut;
+			},
+			manuallyUnlocked: function manuallyUnlocked() {
+				return this.$parent.$data.manuallyUnlocked;
 			}
 		}
 		// </script>
@@ -13288,7 +13291,7 @@
 /* 18 */
 /***/ (function(module, exports) {
 
-	module.exports = "\r\n<div v-if=\"!lockedOut\">\r\n\t<div class=\"row\">\r\n\t\t<div class=\"col-md-4\">\r\n\t\t\t<cue-button :cue=\"201\" name=\"House Full\" type=\"House Lights\" color=\"bg-yellow\"></cue-button>\r\n\t\t\t<cue-button :cue=\"202\" name=\"House Half\" type=\"House Lights\" color=\"bg-yellow\"></cue-button>\r\n\t\t\t<cue-button :cue=\"203\" name=\"House Low\" type=\"House Lights\" color=\"bg-yellow\"></cue-button>\r\n\t\t\t<cue-button :cue=\"200\" name=\"House Off\" type=\"House Lights\" color=\"bg-red\" icon=\"fa-power-off\"></cue-button>\r\n\t\t</div>\r\n\t\t<div class=\"col-md-4\">\r\n\t\t\t<cue-button :cue=\"1\" name=\"Front Lights\" type=\"Stage Lighting\" icon=\"fa-sun-o\"></cue-button>\r\n\t\t\t<cue-button :cue=\"31\" name=\"Backdrop Colors\" type=\"Stage Lighting\" icon=\"fa-sun-o\"></cue-button>\r\n\t\t\t<cue-button :cue=\"27\" name=\"Backdrop White\" type=\"Stage Lighting\" icon=\"fa-sun-o\"></cue-button>\r\n\t\t</div>\r\n\t\t<div class=\"col-md-4\">\r\n\t\t\t<cue-button :cue=\"12\" name=\"Pre/Post Service\" type=\"Presets\" color=\"bg-green\" icon=\"fa-star\"></cue-button>\r\n\t\t\t<cue-button :cue=\"13\" name=\"Worship\" type=\"Presets\" color=\"bg-green\" icon=\"fa-star\"></cue-button>\r\n\t\t\t<cue-button :cue=\"14\" name=\"Sermon\" type=\"Presets\" color=\"bg-green\" icon=\"fa-star\"></cue-button>\r\n\t\t\t<cue-button :cue=\"11\" name=\"All Off\" type=\"Presets\" color=\"bg-red\" icon=\"fa-power-off\"></cue-button>\r\n\t\t</div>\r\n\t</div>\r\n</div>\r\n<div v-else>\r\n\t<div class=\"lockscreen-wrapper\">\r\n\t\t<div class=\"lockscreen-logo\">Auditorium Lighting</div>\r\n\r\n\t\t<div class=\"text-center\" style=\"margin-bottom: 24px;\">\r\n\t\t\tLoading scenes...\r\n\t\t</div>\r\n\t\t<p class=\"text-center\" style=\"font-size: 36px; margin-bottom: 24px;\">\r\n\t\t\t<i class=\"fa fa-refresh fa-spin\"></i>\r\n\t\t</p>\r\n\t</div>\r\n\r\n</div>\r\n</div>\r\n";
+	module.exports = "\r\n<div v-if=\"(!lockedOut || manuallyUnlocked)\">\r\n\t<div class=\"row\">\r\n\t\t<div class=\"col-md-4\">\r\n\t\t\t<cue-button :cue=\"201\" name=\"House Full\" type=\"House Lights\" color=\"bg-yellow\"></cue-button>\r\n\t\t\t<cue-button :cue=\"202\" name=\"House Half\" type=\"House Lights\" color=\"bg-yellow\"></cue-button>\r\n\t\t\t<cue-button :cue=\"203\" name=\"House Low\" type=\"House Lights\" color=\"bg-yellow\"></cue-button>\r\n\t\t\t<cue-button :cue=\"200\" name=\"House Off\" type=\"House Lights\" color=\"bg-red\" icon=\"fa-power-off\"></cue-button>\r\n\t\t</div>\r\n\t\t<div class=\"col-md-4\">\r\n\t\t\t<cue-button :cue=\"1\" name=\"Front Lights\" type=\"Stage Lighting\" icon=\"fa-sun-o\"></cue-button>\r\n\t\t\t<cue-button :cue=\"31\" name=\"Backdrop Colors\" type=\"Stage Lighting\" icon=\"fa-sun-o\"></cue-button>\r\n\t\t\t<cue-button :cue=\"27\" name=\"Backdrop White\" type=\"Stage Lighting\" icon=\"fa-sun-o\"></cue-button>\r\n\t\t</div>\r\n\t\t<div class=\"col-md-4\">\r\n\t\t\t<cue-button :cue=\"12\" name=\"Pre/Post Service\" type=\"Presets\" color=\"bg-green\" icon=\"fa-star\"></cue-button>\r\n\t\t\t<cue-button :cue=\"13\" name=\"Worship\" type=\"Presets\" color=\"bg-green\" icon=\"fa-star\"></cue-button>\r\n\t\t\t<cue-button :cue=\"14\" name=\"Sermon\" type=\"Presets\" color=\"bg-green\" icon=\"fa-star\"></cue-button>\r\n\t\t\t<cue-button :cue=\"11\" name=\"All Off\" type=\"Presets\" color=\"bg-red\" icon=\"fa-power-off\"></cue-button>\r\n\t\t</div>\r\n\t</div>\r\n</div>\r\n<div v-else>\r\n\t<div class=\"lockscreen-wrapper\">\r\n\t\t<div class=\"lockscreen-logo\">Auditorium Lighting</div>\r\n\r\n\t\t<div class=\"text-center\" style=\"margin-bottom: 24px;\">\r\n\t\t\tLoading scenes...\r\n\t\t</div>\r\n\t\t<p class=\"text-center\" style=\"font-size: 36px; margin-bottom: 24px;\">\r\n\t\t\t<i class=\"fa fa-refresh fa-spin\"></i>\r\n\t\t</p>\r\n\t</div>\r\n\r\n</div>\r\n</div>\r\n";
 
 /***/ }),
 /* 19 */

@@ -1,5 +1,5 @@
 <template>
-<div v-if="!lockedOut">
+<div v-if="(!lockedOut || manuallyUnlocked)">
 	<div class="row">
 		<div class="col-md-4">
 			<cue-button :cue="201" name="House Full" type="House Lights" color="bg-yellow"></cue-button>
@@ -44,6 +44,9 @@ module.exports = {
 		},
 		lockedOut: function() {
 			return this.$parent.$data.lockedOut;
+		},
+		manuallyUnlocked: function() {
+			return this.$parent.$data.manuallyUnlocked;
 		}
 	}
 }
