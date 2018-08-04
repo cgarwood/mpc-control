@@ -2,12 +2,13 @@ var config = require('./server-config')
   , fs = require('fs')
   , url = require('url')
   , qs = require('querystring')
-  , path = require('path');
+  , path = require('path')
+  , ws_port = config.ws_port;
 
   
 //Set up WebSocket server
 const WebSocket = require('ws');
-const wss = new WebSocket.Server({port:8082});
+const wss = new WebSocket.Server({port:ws_port});
 
 //Set up standard Web server
 var server = require('http').createServer(webHandler);
@@ -32,6 +33,11 @@ console.log('> Starting server...');
 function webHandler(req, res) {
 	
     query = qs.parse(url.parse(req.url).query);
+
+    //Default to index.html
+    if("/" === req.url)
+    	req.url = "/index.html";
+
 	// attempt to serve static files
 	var file = path.normalize(__dirname + '/../' + req.url);
 	fs.readFile(file, function (err, data)
@@ -81,7 +87,7 @@ tnc.on('ready', function(prompt) {
 	console.log('> Telnet Connection Established');
 	
 	//Start a loop to poll MxManager for data
-	heartbeatTimer = setInterval(function() { if (connectedTelnet) { heartbeat();} }, config.polling_interval);
+    heartbeat();
 });
 
 //This timeout function seems to always be called, but the connection stays active.
@@ -164,10 +170,31 @@ function broadcast(d) {
 }
 
 function heartbeat() {
+	let dynamic_heartbeat = (config.polling_interval === undefined);
+
+	let start_time = Date.now();
+
 	mxIsMxRunning();
 	if (connectedMPC) {
-		setTimeout(function() {mxGetActiveCuelists();}, 500);
+        if(dynamic_heartbeat)
+			mxGetActiveCuelists();
+        else
+        	setTimeout(function(){
+        		mxGetActiveCuelists();
+			}, 500);
 	}
+
+	let poll_in = 1000;
+	if(dynamic_heartbeat){
+        let time_taken = Date.now() - start_time;
+        poll_in = get_value_between( time_taken *config.polling_multiplier, config.polling_min, config.polling_max );
+	} else {
+		poll_in = config.polling_interval;
+	}
+
+	setTimeout(function(){
+		heartbeat();
+	}, poll_in)
 }
 
 //MxManager Functions
@@ -271,4 +298,13 @@ function mxCuelistRelease(number) {
 			}
 		});
 	});
+}
+
+function get_value_between(number,min,max){
+	if(number < min)
+		return min;
+	else if(number > max)
+		return max;
+	else
+		return number;
 }

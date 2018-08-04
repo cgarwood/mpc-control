@@ -3,6 +3,7 @@
   "version": "0.0.1",
   "description": "Touchpanel and web bridge for Martin M-PC and MxManager",
   "dependencies": {
+    "child_process": "^1.0.2",
     "telnet-client": "^0.15.0",
     "vue": "^2.3.4",
     "vue-router": "^2.5.3",

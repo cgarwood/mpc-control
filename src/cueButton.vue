@@ -1,5 +1,8 @@
 <template>
-	<div class="info-box" :data-cue="cue" @click="toggleCue()">
+	<div class="info-box" :data-cue="cue" @click="toggleCue()" v-bind:style="{
+                'background-color':backgroundColor,
+				'color': textColor
+			}">
 		<span class="info-box-icon" :class="color"><i class="fa" :class="icon"></i></span>
 
 		<div class="info-box-content">
@@ -30,10 +33,17 @@ module.exports = {
 		'type' : {
 			default: "Presets"
 		},
+		'backgroundColor' : {
+		    type: String,
+		    default: '#fff'
+		},
+		'textColor' : {
+		    default: '#333'
+		}
 	},
 	data: function() {
 		return {
-			'fading' : false
+            'fading': false
 		}
 	},
 	methods: {
