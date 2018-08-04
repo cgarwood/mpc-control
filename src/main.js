@@ -5,6 +5,7 @@ Vue.use(VueRouter);
 
 //Import Components
 Vue.component('cueButton', require('./cueButton.vue'));
+Vue.component('cueFader', require('./cueFader.vue'));
 
 //Import Route Components
 import pgDisconnected from './pgDisconnected.vue';

@@ -8,9 +8,7 @@
 			<cue-button :cue="200" name="House Off" type="House Lights" color="bg-red" icon="fa-power-off"></cue-button>
 		</div>
 		<div class="col-md-4">
-			<cue-button :cue="1" name="Front Lights" type="Stage Lighting" icon="fa-sun-o"></cue-button>
-			<cue-button :cue="31" name="Backdrop Colors" type="Stage Lighting" icon="fa-sun-o"></cue-button>
-			<cue-button :cue="27" name="Backdrop White" type="Stage Lighting" icon="fa-sun-o"></cue-button>
+			<cue-fader :cue="[201,202,203]" name="House Row 1 name" type="House Row 1 type"></cue-fader>
 		</div>
 		<div class="col-md-4">
 			<cue-button :cue="12" name="Pre/Post Service" type="Presets" color="bg-green" icon="fa-star"></cue-button>
