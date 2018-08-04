@@ -2,7 +2,7 @@
 <div v-if="(!lockedOut || manuallyUnlocked)">
 	<div class="row">
 		<div class="col-md-4">
-			<cue-button :cue="201" backgroundColor="#000" textColor="#fff" name="House Full" type="House Lights" color="bg-yellow"></cue-button>
+			<cue-button :cue="201" type="House Lights" color="bg-yellow"></cue-button>
 			<cue-button :cue="202" name="House Half" type="House Lights" color="bg-yellow"></cue-button>
 			<cue-button :cue="203" name="House Low" type="House Lights" color="bg-yellow"></cue-button>
 			<cue-button :cue="200" name="House Off" type="House Lights" color="bg-red" icon="fa-power-off"></cue-button>
