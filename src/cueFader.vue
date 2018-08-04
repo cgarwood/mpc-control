@@ -5,12 +5,13 @@
             <span class="info-box-text">{{type}}</span>
             <span class="info-box-number">{{name}}</span>
         </div>
-        <input type="range" orient="vertical" min="0" :max="cue.length" value="0" @change="changeCue" ref="fader" v-bind:value="currentCueIndex" />
+        <input type="range" orient="vertical" min="0" :max="cue.length - 1" value="0" @change="changeCue" ref="fader" v-model="currentCueIndex" />
     </div>
 </template>
 
 
 <script>
+    import {bus} from './bus';
     module.exports = {
         props: {
             'cue' : {
@@ -32,33 +33,46 @@
         },
         data: function() {
             return {
-                'fading' : false
+                'fading' : false,
+                currentCueIndex : 0
             }
+        },
+        created(){
+            let that = this;
+          bus.$on('activeCuelistsChanged',function(){
+              that.updatedActiveCues();
+          });
         },
         methods: {
             changeCue: function(){
-                let cue_index = currentCueIndex;
-                console.log(cue_index);
-            },
-            toggleCue: function() {
-                if (this.isActive()) {
-                    this.$root.sendCommand('cuelistRelease ' + this.$props.cue);
+                let cue_index = this.currentCueIndex;
+                let cue = this.$props.cue[cue_index];
+                let that = this;
+                if(cue instanceof Array){
+                    cue.forEach(function(each){
+                        that.setCue(each);
+                    });
                 } else {
-                    this.$root.sendCommand('cuelistGo ' + this.$props.cue);
+                    that.setCue(cue);
                 }
-                this.$data.fading = true;
-                var data = this.$data;
-                setTimeout(function() { data.fading = false; }, 4000);
             },
-            isActive: function() {
-                var active = false;
-                var props = this.$props;
-                var data = this.$data;
+            updatedActiveCues: function(){
+                let that = this;
                 this.$root.activeCuelists.forEach(function(each) {
-                    if (each.id == props.cue) { active = true; data.fading = false; }
+                    that.$props.cue.forEach(function(cue,cue_index){
+                        if(cue instanceof Array){
+                            if(cue.includes(each.id)){
+                                that.currentcueIndex = cue_index;
+                            }
+                        } else if(cue === each.id){
+                            that.currentcueIndex = cue_index;
+                        }
+                    });
                 });
-                return active;
-            }
-        }
+            },
+            setCue: function(cue){
+                this.$root.sendCommand('cuelistGo ' + cue);
+            },
+        },
     }
 </script>
