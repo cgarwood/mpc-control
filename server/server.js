@@ -13,7 +13,7 @@ const wss = new WebSocket.Server({port:ws_port});
 
 //Set up standard Web server
 var server = require('http').createServer(webHandler);
-server.listen(config.http_port);
+server.listen(8082);
 var mimeTypes = {
     "html": "text/html",
     "jpeg": "image/jpeg",
