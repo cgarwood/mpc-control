@@ -32,6 +32,11 @@ console.log('> Starting server...');
 function webHandler(req, res) {
 	
     query = qs.parse(url.parse(req.url).query);
+
+    //Default to index.html
+    if("/" === req.url)
+    	req.url = "/index.html";
+
 	// attempt to serve static files
 	var file = path.normalize(__dirname + '/../' + req.url);
 	fs.readFile(file, function (err, data)
