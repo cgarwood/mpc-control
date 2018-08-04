@@ -2,18 +2,16 @@ var config = require('./server-config')
   , fs = require('fs')
   , url = require('url')
   , qs = require('querystring')
-  , path = require('path')
-  , ws_port = config.ws_port
-;
+  , path = require('path');
 
   
 //Set up WebSocket server
 const WebSocket = require('ws');
-const wss = new WebSocket.Server({port:ws_port});
+const wss = new WebSocket.Server({port:8082});
 
 //Set up standard Web server
 var server = require('http').createServer(webHandler);
-server.listen(8082);
+server.listen(config.http_port);
 var mimeTypes = {
     "html": "text/html",
     "jpeg": "image/jpeg",
