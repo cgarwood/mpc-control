@@ -1,1 +1,2 @@
-node server/autostart.js
+cd server
+node autorestart.js
