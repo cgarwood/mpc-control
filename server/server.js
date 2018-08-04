@@ -2,12 +2,13 @@ var config = require('./server-config')
   , fs = require('fs')
   , url = require('url')
   , qs = require('querystring')
-  , path = require('path');
+  , path = require('path')
+  , ws_port = config.ws_port;
 
   
 //Set up WebSocket server
 const WebSocket = require('ws');
-const wss = new WebSocket.Server({port:8082});
+const wss = new WebSocket.Server({port:ws_port});
 
 //Set up standard Web server
 var server = require('http').createServer(webHandler);
@@ -32,6 +33,11 @@ console.log('> Starting server...');
 function webHandler(req, res) {
 	
     query = qs.parse(url.parse(req.url).query);
+
+    //Default to index.html
+    if("/" === req.url)
+    	req.url = "/index.html";
+
 	// attempt to serve static files
 	var file = path.normalize(__dirname + '/../' + req.url);
 	fs.readFile(file, function (err, data)
