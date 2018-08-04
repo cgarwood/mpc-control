@@ -3,7 +3,8 @@ var config = require('./server-config')
   , url = require('url')
   , qs = require('querystring')
   , path = require('path')
-  , ws_port = config.ws_port;
+  , ws_port = config.ws_port
+;
 
   
 //Set up WebSocket server
