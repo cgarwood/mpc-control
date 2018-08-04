@@ -8,7 +8,7 @@
 			<cue-button :cue="200" name="House Off" type="House Lights" color="bg-red" icon="fa-power-off"></cue-button>
 		</div>
 		<div class="col-md-4">
-			<cue-fader :cue="[201,202,203]" name="House Row 1 name" type="House Row 1 type"></cue-fader>
+			<cue-fader :cue="[[201,200],202,203]" v-bind:activeQueList="$root.activeCuelists" name="House Row 1 name" type="House Row 1 type"></cue-fader>
 		</div>
 		<div class="col-md-4">
 			<cue-button :cue="12" name="Pre/Post Service" type="Presets" color="bg-green" icon="fa-star"></cue-button>
