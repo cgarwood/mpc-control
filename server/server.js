@@ -249,7 +249,7 @@ function process_mxGetActiveCuelists(lines,command){
             case "No Active Qlist in List":
                 break;
             default:
-                let id = line.substring(0,5);
+                let id = parseInt(line.substring(0,5));
                 let title = line.substring(8);
                 activeCuelists.push({'id':id,'title':title});
                 break;
