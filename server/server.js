@@ -26,6 +26,8 @@ var telnet = require('telnet-client');
 var tnc = new telnet();
 var reconnectTimer = 0;
 var heartbeatTimer = 0;
+let poll_in = 500;
+let dynamic_heartbeat = (config.polling_interval === undefined);
 
 console.log('> Starting server...');
 
@@ -65,13 +67,7 @@ var activeCuelists = [];
 connectTelnet();
 function connectTelnet() {
 	console.log('> Connecting to MxManager Telnet');
-	tnc.connect({
-		host: config.mxmanager_ip,
-		port: config.mxmanager_port,
-		shellPrompt: '',
-		timeout: 1500,
-		negotiationMandatory: false
-	});
+	tnc.connect(get_telnet_connect_settings());
 	
 	//Clear the reconnect timer if we are reconnecting
 	if(reconnectTimer){
@@ -170,10 +166,6 @@ function broadcast(d) {
 }
 
 function heartbeat() {
-	let dynamic_heartbeat = (config.polling_interval === undefined);
-
-	let start_time = Date.now();
-
 	mxIsMxRunning();
 	if (connectedMPC) {
         if(dynamic_heartbeat)
@@ -182,14 +174,6 @@ function heartbeat() {
         	setTimeout(function(){
         		mxGetActiveCuelists();
 			}, 500);
-	}
-
-	let poll_in = 1000;
-	if(dynamic_heartbeat){
-        let time_taken = Date.now() - start_time;
-        poll_in = get_value_between( time_taken *config.polling_multiplier, config.polling_min, config.polling_max );
-	} else {
-		poll_in = config.polling_interval;
 	}
 
 	setTimeout(function(){
@@ -220,84 +204,100 @@ function mxIsMxRunning() {
 	});
 }
 function mxStatus() {
-	console.log('>> Status');
-	tnc.send('Status', {waitfor:'.\r\n'}, function(e,d) {
-		broadcast(d);
-	});
+	run_telnet('Status', process_mxStatus);
 }
+function process_mxStatus(lines,command){
+    broadcast(lines);
+}
+
 function mxGetAllCuelists() {
-	console.log('>> QLList');
-	tnc.send('QLList', {waitfor:'.\r\n'}, function(e,d) {
-		var lines = d.split('\r\n');
-		var cuelists = [];
-		lines.forEach(function each(line) {
-			switch (line) {
-				case "200 Ok":
-				case ".":
-				case "":
-					break;
-				default:
-					var id = line.substring(0,5);
-					var title = line.substring(8);
-					cuelists.push({'id':id,'title':title});
-					break;
-			}
-		});
-		broadcast({'cmd':'getAllCuelists','allCuelists':cuelists});
-	});
+	run_telnet('QLList', process_mxGetAllCuelists);
 }
-function mxGetActiveCuelists() {
-	console.log('>> QLActive');
-	tnc.send('QLActive', {waitfor:'.\r\n'}, function(e,d) {
-		var lines = d.split('\r\n');
-		activeCuelists = [];
-		lines.forEach(function each(line) {
-			switch (line) {
-				case "200 Ok":
-				case ".":
-				case "":
-				case "No Active Qlist in List":
-					break;
-				default:
-					var id = line.substring(0,5);
-					var title = line.substring(8);
-					activeCuelists.push({'id':id,'title':title});
-					break;
-			}
-		});
-		broadcast({'cmd':'getActiveCuelists','activeCuelists':activeCuelists});
+function process_mxGetAllCuelists(lines, command){
+    console.log('>> QLList');
+    let cuelists = [];
+	lines.forEach(function each(line) {
+		switch (line) {
+			case "200 Ok":
+			case ".":
+			case "":
+				break;
+			default:
+				var id = line.substring(0,5);
+				var title = line.substring(8);
+				cuelists.push({'id':id,'title':title});
+				break;
+		}
 	});
+	broadcast({'cmd':'getAllCuelists','allCuelists':cuelists});
+}
+
+function mxGetActiveCuelists() {
+    run_telnet('QLActive', process_mxGetActiveCuelists)
+}
+
+function process_mxGetActiveCuelists(lines,command){
+    let start_time = Date.now();
+    console.log('>> QLActive');
+    let activeCuelists = [];
+    lines.forEach(function each(line) {
+        switch (line) {
+            case "200 Ok":
+            case "200 ":
+            case ".":
+            case "":
+            case "No Active Qlist in List":
+                break;
+            default:
+                let id = line.substring(0,5);
+                let title = line.substring(8);
+                activeCuelists.push({'id':id,'title':title});
+                break;
+        }
+    });
+    broadcast({'cmd':'getActiveCuelists','activeCuelists':activeCuelists});
+
+
+    if(dynamic_heartbeat){
+        let time_taken = Date.now() - start_time;
+        poll_in = get_value_between( time_taken *config.polling_multiplier, config.polling_min, config.polling_max );
+    }
 }
 
 function mxCuelistGo(number) {
-	console.log('>> GQL ' + number);
-	tnc.send('GQL ' + number, {waitfor:'.\r\n'}, function(e,d) {
-		var lines = d.split('\r\n');
-		lines.forEach(function each(line) {
-			if (line.slice(-9) == "not found") {
-				console.log('ERROR: CL ' + number + ' not found');
-			}
-			if (line.substring(0,6) == "QList:") {
-				//mxGetActiveCuelists() won't show an active cue until it has finished fading in
-				var id = line.substring(7,11);
-				var title = line.substring(13,line.length-8);
-				activeCuelists.push({'id':id,'title':title});
-				broadcast({'cmd':'getActiveCuelists','activeCuelists':activeCuelists});
-			}
-		});
+	run_telnet('GQL ' + number,process_mxCuelistGo );
+}
+
+function process_mxCuelistGo(lines, command){
+    console.log('>> ' + command);
+	lines.forEach(function each(line) {
+		if (line.slice(-9) === "not found") {
+			console.log('ERROR: CL ' + command + ' not found');
+		}
 	});
 }
 
 function mxCuelistRelease(number) {
-	console.log('>> RQL ' + number);
-	tnc.send('RQL ' + number, {waitfor:'.\r\n'}, function(e,d) {
-		var lines = d.split('\r\n');
-		lines.forEach(function each(line) {
-			if (line.slice(-9) == "not found") {
-				console.log('ERROR: CL ' + number + ' not found');
-			}
-		});
+    run_telnet('RQL ' + number,process_mxCuelistRelease);
+}
+
+function process_mxCuelistRelease(lines,command){
+    console.log('>> ' + command);
+	lines.forEach(function each(line) {
+		if (line.slice(-9) == "not found") {
+			console.log('ERROR: CL ' + number + ' not found');
+		}
 	});
+}
+
+function get_telnet_connect_settings(){
+	return {
+        host: config.mxmanager_ip,
+        port: config.mxmanager_port,
+        shellPrompt: '',
+        timeout: 1500,
+        negotiationMandatory: false
+    }
 }
 
 function get_value_between(number,min,max){
@@ -307,4 +307,23 @@ function get_value_between(number,min,max){
 		return max;
 	else
 		return number;
+}
+
+function run_telnet(command,callback){
+    let telnet_connection = new telnet();
+    telnet_connection.connect(get_telnet_connect_settings())
+        .then(function(){
+            telnet_connection.send(command, {waitfor:'.\r\n'})
+                .then(function(d){
+					telnet_connection.end();
+					let lines = d.split('\r\n');
+					//Remove first 2 welcome lines
+					delete lines[0];
+					delete lines[1];
+					callback(lines,command);
+				},
+				function(err){
+					console.log('Error connecting to telnet: ' . err);
+				})
+        });
 }
