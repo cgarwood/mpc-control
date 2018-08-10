@@ -3,11 +3,8 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 Vue.use(VueRouter);
 
-import {bus} from './bus';
-
 //Import Components
 Vue.component('cueButton', require('./cueButton.vue'));
-Vue.component('cueFader', require('./cueFader.vue'));
 
 //Import Route Components
 import pgDisconnected from './pgDisconnected.vue';
@@ -123,13 +120,6 @@ const app = new Vue({
 		'lockedOut' : false,
 		'manuallyUnlocked' : false,
 		'cuelistsLoaded' : false
-	},
-	watch: {
-        activeCuelists(newVal, oldVal){
-        	if(newVal === oldVal)
-        		return;
-            bus.$emit('activeCuelistsChanged');
-		}
 	},
 	mounted: function() {
 		connectWebsocket();
