@@ -55,14 +55,17 @@ module.exports = {
 			}
 			this.$data.fading = true;
 			var data = this.$data;
-			setTimeout(function() { data.fading = false; }, 4000);
+			setTimeout(function() {
+			    data.fading = false;
+			}, 4000);
 		},
 		isActive: function() {
 			var active = false;
 			var props = this.$props;
-			var data = this.$data;
 			this.$root.activeCuelists.forEach(function(each) {
-				if (each.id == props.cue) { active = true; data.fading = false; }
+				if (each.id === props.cue) {
+				    active = true;
+				}
 			});
 			return active;
 		}
