@@ -39,6 +39,9 @@ module.exports = {
 		},
 		'textColor' : {
 		    default: '#333'
+		},
+		'method' : {
+			default: 'toggle'
 		}
 	},
 	data: function() {
@@ -48,7 +51,7 @@ module.exports = {
 	},
 	methods: {
 		toggleCue: function() {
-			if (this.isActive()) {
+			if (this.isActive()&&this.cueMethod()!='list') {
 				this.$root.sendCommand('cuelistRelease ' + this.$props.cue);
 			} else {
 				this.$root.sendCommand('cuelistGo ' + this.$props.cue);
@@ -68,6 +71,14 @@ module.exports = {
 				}
 			});
 			return active;
+		},
+		cueMethod: function() {
+			var method = 'toggle';
+			var props = this.$props;
+			if (this.$props.method === 'list') {
+				method = 'list';
+			}
+			return method;
 		}
 	}
 }
