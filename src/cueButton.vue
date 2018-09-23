@@ -62,7 +62,7 @@ module.exports = {
 					this.$root.sendCommand('cuelistGo ' + this.$props.cue);
 					break;
 				default:
-					console.log(`method ${this.method} is not valid`);
+					console.log(`method ${this.$props.method} is not valid`);
 			}
 			this.$data.fading = true;
 			var data = this.$data;
