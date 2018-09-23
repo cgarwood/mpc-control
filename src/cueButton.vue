@@ -51,10 +51,18 @@ module.exports = {
 	},
 	methods: {
 		toggleCue: function() {
-			if (this.isActive()&&this.cueMethod()!='list') {
-				this.$root.sendCommand('cuelistRelease ' + this.$props.cue);
-			} else {
-				this.$root.sendCommand('cuelistGo ' + this.$props.cue);
+			switch(this.$props.method){
+				case 'toggle':
+					if(this.isActive())
+					  this.$root.sendCommand('cuelistRelease ' + this.$props.cue);
+					else
+					  this.$root.sendCommand('cuelistGo ' + this.$props.cue);
+					break;
+				case 'list':
+					this.$root.sendCommand('cuelistGo ' + this.$props.cue);
+					break;
+				default:
+					console.log(`method ${this.method} is not valid`);
 			}
 			this.$data.fading = true;
 			var data = this.$data;
@@ -71,14 +79,6 @@ module.exports = {
 				}
 			});
 			return active;
-		},
-		cueMethod: function() {
-			var method = 'toggle';
-			var props = this.$props;
-			if (this.$props.method === 'list') {
-				method = 'list';
-			}
-			return method;
 		}
 	}
 }
