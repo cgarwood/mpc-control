@@ -116,6 +116,11 @@ wss.on('connection', function connection(ws, req) {
     console.log('> received: %s', message);
 	handleEvent(message);
   });
+  
+  ws.on('error', function(err) {
+    console.log("Error caught: ");
+	console.log(err.stack);
+  });
 
 });
 
